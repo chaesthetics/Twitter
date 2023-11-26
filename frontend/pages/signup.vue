@@ -11,13 +11,13 @@
         <p class="text-4xl font-bold mx-4 mx:px-0 w-5/6 sm:w-4/6">Join Today.</p>
         <div class="space-y-5 justify-center">
             <div class="flex space-x-2 mx-4 mx:px-0 w-5/6 sm:w-4/6">
-                <input class="border-gray-400 border rounded-md text-lg text-black px-3 py-2" placeholder="Enter your Firstname" type="text"/>
-                <input class="border-gray-400 border rounded-md text-lg text-black px-3 py-2" placeholder="Enter your Lastname" type="text"/>
+                <input class="border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border rounded-md text-lg text-black px-3 py-2" placeholder="Enter your Firstname" type="text"/>
+                <input class="border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border rounded-md text-lg text-black px-3 py-2" placeholder="Enter your Lastname" type="text"/>
             </div>
-            <input class="border-gray-400 border mx-4 mx:px-0 w-5/6 sm:w-4/6 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your Email" type="email"/>
+            <input class="border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border mx-4 mx:px-0 w-5/6 sm:w-4/6 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your Email" type="email"/>
              <div class="flex space-x-2 mx-4 mx:px-0 w-5/6 sm:w-4/6">
-                <input class="border-gray-400 border rounded-md text-lg text-black px-3 py-2" placeholder="Enter your password" type="password"/>
-                <input class="border-gray-400 border rounded-md text-lg text-black px-3 py-2" placeholder="Password confirmation" type="password"/>
+                <input class="border-gray-400 border rounded-md text-lg text-black px-3 py-2 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600" placeholder="Enter your password" type="password"/>
+                <input class="border-gray-400 border rounded-md text-lg text-black px-3 py-2 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600" placeholder="Password confirmation" type="password"/>
             </div>
             <button class="mx-4 mx:px-0 w-5/6 sm:w-4/6 bg-sky-600 hover:bg-sky-700 px-10 py-2 rounded-full text-lg font-bold text-white">Sign Up</button>
         </div>
