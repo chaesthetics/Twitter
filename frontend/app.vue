@@ -1,5 +1,9 @@
+<script setup>
+</script>
 <template>
-  <div>
-    <NuxtWelcome />
+  <div h-screen w-screen>
+    <NuxtPage />
+    <TheFooter />
   </div>
 </template>
+<style></style>
