@@ -10,8 +10,8 @@
         <p class="text-6xl font-bold mt-20 mx-4 mx:px-0 w-5/6 sm:w-4/6">Happening Now</p>
         <p class="text-4xl font-bold mx-4 mx:px-0 w-5/6 sm:w-4/6">Join Today.</p>
         <div class="space-y-5">
-            <input class="border-gray-400 border mx-4 mx:px-0 w-5/6 sm:w-4/6 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your Email" type="text"/>
-            <input class="border-gray-400 border mx-4 mx:px-0 w-5/6 sm:w-4/6 rounded-md text-lg px-3 py-2" placeholder="Enter your Password" type="password"/>
+            <input class="focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border-gray-400 border mx-4 mx:px-0 w-5/6 sm:w-4/6 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your Email" type="text"/>
+            <input class="focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border-gray-400 border mx-4 mx:px-0 w-5/6 sm:w-4/6 rounded-md text-lg px-3 py-2" placeholder="Enter your Password" type="password"/>
             <button class="mx-4 mx:px-0 w-5/6 sm:w-4/6 bg-sky-600 hover:bg-sky-700 px-10 py-2 rounded-full text-lg font-bold text-white">Sign In</button>
         </div>
         <div class="terms flex w-4/6 text-sm mx-4 mx:px-0 w-5/6 sm:w-4/6">
