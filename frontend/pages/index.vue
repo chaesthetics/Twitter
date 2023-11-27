@@ -1,4 +1,14 @@
 <script setup>
+import { reactive } from "vue";
+
+const initialState = {
+    email: '',
+    password: '',
+}
+
+const loginForm = reactive({...initialState});
+
+
 
 </script>
 <template>
