@@ -21,7 +21,7 @@
         <a href="#" class="hover:underline">X for Business</a>
         <a href="#" class="hover:underline">Developer</a>
     </div>
-    <div class="flex justify-center space-x-4 text-sm text-gray-600">
+    <div class="flex justify-center space-x-4 text-sm text-gray-600 mt-0 md:mt-3">
         <a href="#">Directory</a>
         <a href="#">Settings</a>
         <a href="https://facebook.com/aurieljames11">© 2023 Fernandez.</a>
