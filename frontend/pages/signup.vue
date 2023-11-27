@@ -9,14 +9,14 @@
         <p class="ml-auto mr-auto md:ml-0 md:mr-0 text-6xl font-bold mt-20 mx-4 md:mx-0 w-5/6 sm:w-full">Register Now!</p>
         <p class="ml-auto mr-auto md:ml-0 md:mr-0 text-4xl font-bold mx-4 md:mx-0 w-5/6 sm:w-4/6">Join Today.</p>
         <div class="space-y-5 justify-center">
-            <div class="flex space-x-2 mx-4 md:mx-0 w-5/6 sm:w-4/6">
-                <input class="border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border rounded-md text-lg text-black px-3 py-2" placeholder="Enter your Firstname" type="text"/>
-                <input class="border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border rounded-md text-lg text-black px-3 py-2" placeholder="Enter your Lastname" type="text"/>
+            <div class="flex space-x-2 mx-5 md:mx-0 w-11/6 sm:w-11/12">
+                <input class="border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border rounded-md text-lg text-black px-3 py-2" placeholder="Enter your firstname" type="text"/>
+                <input class="border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border rounded-md text-lg text-black px-3 py-2" placeholder="Enter your lastname" type="text"/>
             </div>
             <div class="flex">
-                <input class="ml-auto mr-auto md:ml-0 md:mr-0 border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border mx-3 md:mx-0 w-11/12 md:w-10/12 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your Email" type="email"/>
+                <input class="ml-auto mr-auto md:ml-0 md:mr-0 border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border w-11/12 md:w-10/12 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your email" type="email"/>
             </div>
-             <div class="flex space-x-2 mx-4 md:mx-0 w-5/6 sm:w-4/6">
+             <div class="flex space-x-2 mx-5 md:mx-0 w-11/12 sm:w-11/12">
                 <input class="border-gray-400 border rounded-md text-lg text-black px-3 py-2 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600" placeholder="Enter your password" type="password"/>
                 <input class="border-gray-400 border rounded-md text-lg text-black px-3 py-2 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600" placeholder="Password confirmation" type="password"/>
             </div>
@@ -29,7 +29,7 @@
         </div>
         <div class="mt-10 space-y-3 w-full sm:w-5/6">
             <div class="flex">
-                <p class="ml-auto mr-auto md:ml-0 md:mr-0 font-semibold text-2xl">Already have an account?</p>
+                <p class="ml-auto mr-auto md:ml-0 md:mr-0 font-semibold text-xl">Already have an account?</p>
             </div>
             <div class="flex"> 
                 <NuxtLink to="/" class="ml-auto mr-auto md:ml-0 md:mr-0 border border-gray-400 text-sky-500 hover:bg-gray-200 px-10 py-2 rounded-full text-md font-bold text-white">Sign In</NuxtLink>

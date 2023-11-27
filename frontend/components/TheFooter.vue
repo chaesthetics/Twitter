@@ -3,7 +3,7 @@
 
 <template>
 <div class="py-5">
-    <div class="flex w-full justify-center text-sm space-x-3 text-gray-700 invisible md:visible">
+    <div class="flex w-full justify-center text-sm space-x-3 text-gray-600 invisible md:visible">
         <a href="#" class="hover:underline">About</a>
         <a href="#" class="hover:underline">Download the X app</a>
         <a href="#" class="hover:underline">Help Center</a>
@@ -21,7 +21,7 @@
         <a href="#" class="hover:underline">X for Business</a>
         <a href="#" class="hover:underline">Developer</a>
     </div>
-    <div class="flex justify-center space-x-4 text-sm text-gray-700">
+    <div class="flex justify-center space-x-4 text-sm text-gray-600">
         <a href="#">Directory</a>
         <a href="#">Settings</a>
         <a href="https://facebook.com/aurieljames11">© 2023 Fernandez.</a>
