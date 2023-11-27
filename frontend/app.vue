@@ -1,7 +1,7 @@
 <script setup>
 </script>
 <template>
-  <div h-screen w-screen>
+  <div class="h-screen">
     <NuxtPage />
     <TheFooter />
   </div>

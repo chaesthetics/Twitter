@@ -9,7 +9,7 @@
     <div class="form justify-center md:justify-start items-center space-y-4 w-auto">
         <p class="ml-auto mr-auto md:ml-0 md:mr-0 text-6xl font-bold mt-20 mx-4 md:mx-0 w-5/6 sm:w-full">Happening Now</p>
         <p class="ml-auto mr-auto md:ml-0 md:mr-0 text-4xl font-bold mx-4 md:mx-0 w-5/6 sm:w-4/6">Join Today.</p>
-        <div class="space-y-5 justify-center">
+        <form class="space-y-5 justify-center">
             <div class="flex">
                 <input class="ml-auto mr-auto md:ml-0 md:mr-0 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border-gray-400 border mx-4 md:mx-0 w-5/6 sm:w-4/6 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your email" type="text"/>
             </div>
@@ -19,16 +19,16 @@
             <div class="flex">
                 <button class="ml-auto mr-auto md:ml-0 md:mr-0 mx-4 md:mx-0 w-5/6 sm:w-4/6 bg-sky-600 hover:bg-sky-700 px-10 py-2 rounded-full text-lg font-bold text-white">Sign In</button>
             </div>
-        </div>
+        </form>
         <div class="terms flex w-4/6 text-sm ml-auto mr-auto md:ml-0 md:mr-0 w-5/6 sm:w-4/6">
-            <p>By signing in, you agree to the <a class="text-blue-400">Terms of Service</a> and <a class="text-blue-400">Privacy Policy</a>, including <a class="text-blue-400">Cookie Use.</a></p>
+            <p>By signing up, you agree to the <a class="text-blue-400">Terms of Service</a> and <a class="text-blue-400">Privacy Policy</a>, including <a class="text-blue-400">Cookie Use.</a></p>
         </div>
         <div class="mt-10 space-y-3 w-full sm:w-5/6">
             <div class="flex">
                 <p class="ml-auto mr-auto md:ml-0 md:mr-0 font-semibold text-xl">Dont have an account?</p>
             </div>
             <div class="flex">
-                <NuxtLink to="/signup" class="ml-auto mr-auto md:ml-0 md:mr-0 border border-gray-400 text-sky-500 hover:bg-gray-200 px-10 py-2 rounded-full text-md font-bold text-white">Sign Up</NuxtLink>
+                <NuxtLink to="/signup" class="ml-auto mr-auto md:ml-0 md:mr-0 border border-gray-400 hover:bg-gray-200 px-10 py-2 rounded-full text-md font-bold text-sky-600">Sign Up</NuxtLink>
             </div>
         </div>
     </div>
