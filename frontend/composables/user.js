@@ -13,9 +13,19 @@ const useUser = () => {
         }
     }
 
+    const logIn = async(data) => {
+        try{
+            await axios.post(`${baseURL}/login`, data);
+        }catch(err){
+            err.value = err.response.data;
+        }
+    } 
+
     return{
         signUp,
+        logIn,
         errors,
+        
     }
 }
 

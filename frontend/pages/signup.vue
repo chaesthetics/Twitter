@@ -13,7 +13,7 @@ const initialState = {
 };
 const signupForm = reactive({...initialState});
 
-const handleSubmit = async() => {
+const signupSubmitHandler = async() => {
     await signUp(signupForm);
 }
 
@@ -26,7 +26,7 @@ const handleSubmit = async() => {
     <div class="form justify-center md:justify-start items-center space-y-4 w-auto">
         <p class="ml-auto mr-auto md:ml-0 md:mr-0 text-6xl font-bold mt-20 mx-4 md:mx-0 w-5/6 sm:w-full">Register Now!</p>
         <p class="ml-auto mr-auto md:ml-0 md:mr-0 text-4xl font-bold mx-4 md:mx-0 w-5/6 sm:w-4/6">Join Today.</p>
-        <form class="space-y-5 justify-center" @submit.prevent="handleSubmit">
+        <form class="space-y-5 justify-center" @submit.prevent="signupSubmitHandler">
             <div class="flex space-x-2 mx-5 md:mx-0 w-11/6 sm:w-11/12">
                 <input v-model="signupForm.firstname" class="border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border rounded-md text-lg text-black px-3 py-2" placeholder="Enter your firstname" type="text"/>
                 <input v-model="signupForm.lastname" class="border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border rounded-md text-lg text-black px-3 py-2" placeholder="Enter your lastname" type="text"/>
