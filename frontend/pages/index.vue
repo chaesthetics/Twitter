@@ -1,4 +1,19 @@
 <script setup>
+import { reactive } from "vue";
+import useUser from '../composables/user';
+
+const { logIn, errors } = useUser();
+
+const initialState = {
+    email: '',
+    password: '',
+}
+
+const loginForm = reactive({...initialState});
+
+const loginSubmitHandler = async() => {
+    await logIn(loginForm);
+}
 
 </script>
 <template>
@@ -9,15 +24,15 @@
     <div class="form justify-center md:justify-start items-center space-y-4 w-auto">
         <p class="ml-auto mr-auto md:ml-0 md:mr-0 text-6xl font-bold mt-20 mx-4 md:mx-0 w-5/6 sm:w-full">Happening Now</p>
         <p class="ml-auto mr-auto md:ml-0 md:mr-0 text-4xl font-bold mx-4 md:mx-0 w-5/6 sm:w-4/6">Join Today.</p>
-        <form class="space-y-5 justify-center">
+        <form class="space-y-5 justify-center" @submit.prevent="loginSubmitHandler">
             <div class="flex">
-                <input class="ml-auto mr-auto md:ml-0 md:mr-0 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border-gray-400 border mx-4 md:mx-0 w-5/6 sm:w-4/6 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your email" type="text"/>
+                <input v-model="loginForm.email" class="ml-auto mr-auto md:ml-0 md:mr-0 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border-gray-400 border mx-4 md:mx-0 w-5/6 sm:w-4/6 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your email" type="text"/>
             </div>
             <div class="flex">
-                <input class="ml-auto mr-auto md:ml-0 md:mr-0 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border-gray-400 border mx-4 md:mx-0 w-5/6 sm:w-4/6 rounded-md text-lg px-3 py-2" placeholder="Enter your password" type="password"/>
+                <input v-model="loginForm.password" class="ml-auto mr-auto md:ml-0 md:mr-0 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border-gray-400 border mx-4 md:mx-0 w-5/6 sm:w-4/6 rounded-md text-lg px-3 py-2" placeholder="Enter your password" type="password"/>
             </div>
             <div class="flex">
-                <button class="ml-auto mr-auto md:ml-0 md:mr-0 mx-4 md:mx-0 w-5/6 sm:w-4/6 bg-sky-600 hover:bg-sky-700 px-10 py-2 rounded-full text-lg font-bold text-white">Sign In</button>
+                <button type="submit" class="ml-auto mr-auto md:ml-0 md:mr-0 mx-4 md:mx-0 w-5/6 sm:w-4/6 bg-sky-600 hover:bg-sky-700 px-10 py-2 rounded-full text-lg font-bold text-white">Sign In</button>
             </div>
         </form>
         <div class="terms flex w-4/6 text-sm ml-auto mr-auto md:ml-0 md:mr-0 w-5/6 sm:w-4/6">
