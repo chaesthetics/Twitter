@@ -51,8 +51,12 @@ class AuthController extends Controller
                 return AuthResource::make([
                     'token' => $token,
                     'user' => [
+                        'id' => $user->id,
                         'firstname' => $user->firstname,
+                        'lastname' => $user->lastname,
                         'email' => $user->email,
+                        'bio' => $user->bio,
+                        'avatar' => $user->avatar,
                     ]
                 ]);
             }else{
