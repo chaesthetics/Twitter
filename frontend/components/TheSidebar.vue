@@ -12,17 +12,16 @@ onMounted(()=>{
 <template>
 <aside class="sticky h-screen top-10 space-y-1 border border-left-1px flex flex-col justify-between">
     <div class="pt-3">
-        <svg viewBox="0 0 24 24" aria-hidden="true" class="pt-3 ml-[20px] md:ml-[53px] h-10 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp r-18jsvk2 r-16y2uox r-8kz0gk"><g><path stroke-width="0.3" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
-    
-        <div class="side-items md:ml-10">
-            <NuxtLink class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="pt-3 mr-auto ml-auto md:ml-[53px] h-10 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp r-18jsvk2 r-16y2uox r-8kz0gk"><g><path stroke-width="0.3" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
+        <div class="side-items mt-3 md:ml-10">
+            <NuxtLink to="/home" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
                 hover:bg-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#191919" class="bi bi-house-door-fill md:ml-0" viewBox="0 0 16 16" stroke="#191919"> <path stroke-width="0.3" d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/> </svg>
-                <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">Explore</span>
+                <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">Home</span>
             </NuxtLink>
         </div>
         <div class="side-items md:ml-10">
-            <NuxtLink class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
+            <NuxtLink to="/explore" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
                 hover:bg-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#191919" class="bi bi-compass md:ml-0" viewBox="0 0 16 16" stroke="#191919"> <path stroke-width="0.3" d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/> <path stroke-width="0.3" d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/> </svg>
                 <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">Explore</span>
@@ -36,35 +35,35 @@ onMounted(()=>{
             </NuxtLink>
         </div>
         <div class="side-items md:ml-10">
-            <NuxtLink class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
+            <NuxtLink to="/message" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
                 hover:bg-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#191919" class="bi bi-envelope" viewBox="0 0 16 16" stroke="#191919"> <path stroke-width="0.3" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/> </svg>
                 <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">Messages</span>
             </NuxtLink>
         </div>
         <div class="side-items md:ml-10">
-            <NuxtLink class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
+            <NuxtLink to="/lists" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
                 hover:bg-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#191919" class="bi bi-card-text" viewBox="0 0 16 16" stroke="#191919"> <path stroke-width="0.3" d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/> <path stroke-width="0.3" d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/> </svg>
                 <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">Lists</span>
             </NuxtLink>
         </div>
         <div class="side-items md:ml-10">
-            <NuxtLink class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
+            <NuxtLink to="/communities" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
                 hover:bg-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="#191919" stroke="currentColor" stroke-width="0.3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path stroke-width="0.3" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path stroke-width="0.3" d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path stroke-width="0.3" d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                 <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">Communities</span>
             </NuxtLink>
         </div>
         <div class="side-items md:ml-10">
-            <NuxtLink class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
+            <NuxtLink to="/premium" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
                 hover:bg-gray-300">
                 <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18jsvk2 r-lwhw9o r-cnnz9e"><g><path stroke-width="0.3" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
                 <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">Premium</span>
             </NuxtLink>
         </div>
         <div class="side-items md:ml-10">
-            <NuxtLink class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
+            <NuxtLink to="/profile" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
                 hover:bg-gray-300">
                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#191919" class="bi bi-person" viewBox="0 0 16 16"> <path stroke-width="0.3" d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/> </svg>
                 <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">Profile</span>
@@ -84,11 +83,11 @@ onMounted(()=>{
     </div>
     <div class="side-items ml-0 md:ml-10 pb-3">
         <div class="text-white font-bold py-2 px-0 justify-center md:px-2.5 w-full rounded-full flex md:justify-between items-center hover:bg-gray-300 duration-300">
-            <div class="flex space-x-0 md:space-x-2 flex items-center w-12">
+            <div class="flex space-x-0 md:space-x-2 flex items-center w-12 cursor-pointer">
                 <img src="~/assets/images/profile.jpg" class="rounded-full h-[45px] ml-2"/>
                 <div class="collapse md:visible">
                     <p class="text-black font-bold leading-4">{{ userData.firstname }}</p>
-                    <p class="leading-4 font-normal text-gray-600">{{ userData.email }}</p>
+                    <p class="leading-4 font-normal text-xs text-gray-600">{{ userData.email }}</p>
                 </div>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="black" class="bi bi-three-dots collapse md:visible" viewBox="0 0 16 16"> <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/> </svg>
