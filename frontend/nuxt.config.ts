@@ -6,7 +6,9 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+
   css: ['~/assets/css/main.css'],
+
   app: {
     head: {
       title: 'twitter',
@@ -28,5 +30,7 @@ export default defineNuxtConfig({
         }
       ],
     }
-  }
+  },
+
+  modules: ["@nuxtjs/tailwindcss"]
 })

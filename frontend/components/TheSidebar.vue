@@ -1,10 +1,12 @@
 <script setup>
 import { onMounted } from "vue";
+import { initFlowbite } from 'flowbite';
 import useUser from "../composables/user";
 
 const { logOut, getUser, userData } = useUser();
 
 onMounted(()=>{
+    initFlowbite();
     getUser();
 });
 
@@ -81,18 +83,30 @@ onMounted(()=>{
                 <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter visible md:invisible" viewBox="0 0 16 16"> <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" fill="white"></path> </svg>
         </button>
     </div>
-    <div class="side-items ml-0 md:ml-10 pb-3">
-        <div class="text-white font-bold py-2 px-0 justify-center md:px-2.5 w-full rounded-full flex md:justify-between items-center hover:bg-gray-300 duration-300">
+    <button data-tooltip-target="tooltip-top" data-tooltip-placement="top"  data-tooltip-trigger="click" type="button" class="pr-2 side-items ml-0 md:ml-10 pb-3">
+        <div class="text-white font-bold py-2 px-0 justify-center md:px-2.5 ml-1 w-full rounded-full flex md:justify-between items-center hover:bg-gray-300 duration-300">
             <div class="flex space-x-0 md:space-x-2 flex items-center w-12 cursor-pointer">
                 <img src="~/assets/images/profile.jpg" class="rounded-full h-[45px] ml-2"/>
                 <div class="collapse md:visible">
-                    <p class="text-black font-bold leading-4">{{ userData.firstname }}</p>
+                    <p class="text-black font-bold leading-4 text-left">{{ userData.firstname }}</p>
                     <p class="leading-4 font-normal text-xs text-gray-600">{{ userData.email }}</p>
                 </div>
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="black" class="bi bi-three-dots collapse md:visible" viewBox="0 0 16 16"> <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/> </svg>
         </div>
-    </div>
+    </button>
+
+    <div id="tooltip-top" role="tooltip" class="absolute z-10 w-[190px] md:w-[300px] invisible inline-block py-2 text-sm font-medium text-black bg-white rounded-xl shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] opacity-0 tooltip dark:bg-gray-700">
+        <div class="py-2 font-bold text-[16px] text-gray-950 space-y-1">
+            <button class="hover:bg-gray-100 py-3 px-3 w-full duration-300">
+                <p>Add an existing account</p>
+            </button>
+            <button @click.prevent="logOut" class="hover:bg-gray-100 py-3 px-3 w-full duration-300">
+                <p>Log out {{ userData.firstname }}</p>
+            </button>
+        </div>
+    <div class="tooltip-arrow" data-popper-arrow></div>
+</div>
 </aside>
 </template>
 <style>
