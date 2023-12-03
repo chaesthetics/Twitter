@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -23,7 +23,7 @@ class SigninRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|exists:users,email',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required'
         ];
     }
@@ -32,8 +32,9 @@ class SigninRequest extends FormRequest
     {
         return[
             'email.required' => 'Your email is required',
-            'email.exist' => 'Email does not exist in our records',
-            'password' => 'Please enter your password',
+            'email.email' => 'Please use valid email',
+            'email.exists' => 'This email does not exist in our record, YOU MODAFAKA',
+            'password.required' => 'Please enter your password',
         ];
     }
 

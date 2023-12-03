@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SignupRequest;
-use App\Http\Requests\SigninRequest;
+use App\Http\Requests\Auth\SigninRequest;
+use App\Http\Requests\Auth\SignupRequest;
+use App\Http\Resources\Auth\AuthResource;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class AuthController extends Controller
 {
     public function signup(SignupRequest $request)
     {
@@ -43,10 +44,21 @@ class UserController extends Controller
         try{
             $credentials = $request->only('email', 'password');
             if (Auth::attempt($credentials)) {
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Logged in successfully',
-                ], 200);
+
+                $user = User::where('email', $request->email)->first();
+                $token = $user->createToken('myToken')->plainTextToken;
+
+                return AuthResource::make([
+                    'token' => $token,
+                    'user' => [
+                        'id' => $user->id,
+                        'firstname' => $user->firstname,
+                        'lastname' => $user->lastname,
+                        'email' => $user->email,
+                        'bio' => $user->bio,
+                        'avatar' => $user->avatar,
+                    ]
+                ]);
             }else{
                 return response()->json([
                     'status' => false,
