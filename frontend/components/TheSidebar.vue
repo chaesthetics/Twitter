@@ -12,7 +12,7 @@ onMounted(()=>{
 
 </script>
 <template>
-<aside class="sticky h-screen top-10 space-y-1 border border-left-1px flex flex-col justify-between">
+<aside class="sticky h-screen top-0 space-y-1 border border-left-1px flex flex-col justify-between">
     <div class="pt-3">
         <svg viewBox="0 0 24 24" aria-hidden="true" class="pt-3 mr-auto ml-auto md:ml-[53px] h-10 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp r-18jsvk2 r-16y2uox r-8kz0gk"><g><path stroke-width="0.3" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
         <div class="side-items mt-3 md:ml-10">
@@ -78,7 +78,7 @@ onMounted(()=>{
                 <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">More</span>
             </NuxtLink>
         </div>
-        <button class="side-items mt-2 ml-auto mr-auto md:mr-0 md:ml-10 flex justify-center md:justify-start bg-sky-500 text-white font-bold py-3.5 px-2.5 w-5/6 rounded-full hover:bg-sky-600 duration-300">
+        <button class="side-items mt-2 ml-auto mr-auto md:mr-0 md:ml-10 flex justify-center md:justify-start bg-sky-500 text-white font-bold py-3.5 px-2.5 w-4/6 rounded-full hover:bg-sky-600 duration-300">
                 <h1 class="invisible md:visible md:ml-auto md:mr-auto text-[0px] md:text-[15px]">Tweet</h1>
                 <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter visible md:invisible" viewBox="0 0 16 16"> <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" fill="white"></path> </svg>
         </button>
