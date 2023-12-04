@@ -2,9 +2,9 @@
 
 </script>
 <template>
-<aside class="w-full">
-    <div class="flex justify-center items-center h-screen bg-neutral-800 w-full">
-        <h1 class="text-3xl text-white">Im left side bar</h1>
+<aside class="sticky top-0">
+    <div class="flex justify-center items-center h-screen bg-white w-full border border-left-2">
+        <h1 class="text-3xl text-neutral-800">Im left side bar</h1>
     </div>
 </aside>
 </template>
