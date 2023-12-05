@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
@@ -21,4 +22,8 @@ use App\Http\Controllers\Api\Auth\AuthController;
 Route::controller(AuthController::class)->group(function(){
     Route::post('/signup', 'signup');
     Route::post('/login', 'login');
+});
+
+Route::controller(PostController::class)->group(function(){
+    Route::post('/post', 'post');
 });
