@@ -18,7 +18,7 @@ onMounted(()=> {
       <NuxtPage />
       <TheFooter v-if="router.currentRoute.value.fullPath === '/signup' || router.currentRoute.value.fullPath === '/'"/>
     </div>
-    <div class="col-span-0 md:col-span-3 hidden md:block">
+    <div v-if="router.currentRoute.value.fullPath !== '/' && router.currentRoute.value.fullPath !== '/signup'" class="col-span-0 md:col-span-3 hidden md:block">
       <TheRightsidebar />
     </div>
   </div>
