@@ -3,7 +3,8 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 class PostRequest extends FormRequest
 {
     /**
@@ -11,7 +12,7 @@ class PostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,23 @@ class PostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'text' => 'max:200'
         ];
+    }
+
+    public function message()
+    {
+        return[
+            'text.max' => 'Text should be no longer than 200 characters.'
+        ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'message' => 'Unable action',
+            'data' => $validator->errors(),
+        ], 400));
     }
 }
