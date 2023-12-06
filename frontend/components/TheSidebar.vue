@@ -86,7 +86,7 @@ onMounted(()=>{
     <button data-tooltip-target="tooltip-top" data-tooltip-placement="top"  data-tooltip-trigger="click" type="button" class="pr-2 side-items ml-0 md:ml-10 pb-3">
         <div class="text-white font-bold py-2 px-0 justify-center md:px-2.5 ml-1 w-full rounded-full flex md:justify-between items-center hover:bg-gray-300 duration-300">
             <div class="flex space-x-0 md:space-x-2 flex items-center w-12 cursor-pointer">
-                <img src="~/assets/images/profile.jpg" class="rounded-full h-[45px] ml-2"/>
+                <img src="~/assets/images/profile.jpg" class="rounded-full h-[45px] ml-[9px]"/>
                 <div class="collapse md:visible">
                     <p class="text-black font-bold leading-4 text-left">{{ userData.firstname }}</p>
                     <p class="leading-4 font-normal text-xs text-gray-600">{{ userData.email }}</p>
