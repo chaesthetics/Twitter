@@ -45,7 +45,14 @@ class PostController extends Controller
 
     public function getAllPost()
     {
-        $allPost = Post::with('user')->get();
-        return response()->json($allPost);
+        try{
+            $allPost = Post::with('user')->get()->reverse()->values();
+            return response()->json($allPost);
+        }catch(\Throwable $th){
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
     }
 }

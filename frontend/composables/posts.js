@@ -8,7 +8,7 @@ const usePost = () => {
 
     const post = async(userId, token, data) => {
         try{
-            axios.post(`${baseURL}/post`, 
+            await axios.post(`${baseURL}/post`, 
                 {
                     token: token,
                     user_id: userId,
@@ -21,8 +21,18 @@ const usePost = () => {
         }
     }
 
+    const getAllPost = async() => {
+        try{
+            const response = await axios.get(`${baseURL}/getAllPost`);
+            tweets.value = response.data;
+        }catch(err){
+            console.log(err);
+        }
+    }
+
     return {
         post,
+        getAllPost,
         errors,
         tweets,
     }
