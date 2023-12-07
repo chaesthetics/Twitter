@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\PostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
-
+use App\Models\User;
 class PostController extends Controller
 {
     public function post(PostRequest $request)
@@ -19,7 +19,7 @@ class PostController extends Controller
                     $filename = $request->getSchemeAndHttpHost() . '/assets/img/' . time() . '.' . $request->image->extension();
                     $request->image->move(public_path('/assets/img/'), $filename);
                 }
-                
+
                 $data['user_id'] = $request->user_id;
                 $data['text'] = $request->text;
                 $data['image'] = $filename;
@@ -41,6 +41,11 @@ class PostController extends Controller
                 'message' => $th->getMessage(),
             ], 500);
         }
-        
+    }
+
+    public function getAllPost()
+    {
+        $allPost = Post::with('user')->get();
+        return response()->json($allPost);
     }
 }
