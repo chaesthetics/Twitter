@@ -1,13 +1,16 @@
 <script setup>
 import { onMounted } from "vue";
+import { useRouter } from "vue-router"
 import { initFlowbite } from 'flowbite';
 import useUser from "../composables/user";
 
 const { logOut, getUser, userData } = useUser();
 
-onMounted(()=>{
+const router = useRouter();
+
+onMounted( async()=> {
     initFlowbite();
-    getUser();
+    await getUser();
 });
 
 </script>
@@ -39,7 +42,7 @@ onMounted(()=>{
         <div class="side-items md:ml-10">
             <NuxtLink to="/message" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
                 hover:bg-gray-300">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#191919" class="bi bi-envelope" viewBox="0 0 16 16" stroke="#191919"> <path stroke-width="0.3" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/> </svg>
+                 <svg viewBox="0 0 24 24" aria-hidden="true" width="25" height="25" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(15, 20, 25);"><g><path d="M1.998 5.5c0-1.381 1.119-2.5 2.5-2.5h15c1.381 0 2.5 1.119 2.5 2.5v13c0 1.381-1.119 2.5-2.5 2.5h-15c-1.381 0-2.5-1.119-2.5-2.5v-13zm2.5-.5c-.276 0-.5.224-.5.5v2.764l8 3.638 8-3.636V5.5c0-.276-.224-.5-.5-.5h-15zm15.5 5.463l-8 3.636-8-3.638V18.5c0 .276.224.5.5.5h15c.276 0 .5-.224.5-.5v-8.037z"></path></g></svg>
                 <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">Messages</span>
             </NuxtLink>
         </div>
@@ -65,7 +68,7 @@ onMounted(()=>{
             </NuxtLink>
         </div>
         <div class="side-items md:ml-10">
-            <NuxtLink to="/profile" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
+            <NuxtLink :to="`/${userData.email?.split('@')[0]}`" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
                 hover:bg-gray-300">
                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#191919" class="bi bi-person" viewBox="0 0 16 16"> <path stroke-width="0.3" d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/> </svg>
                 <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">Profile</span>
