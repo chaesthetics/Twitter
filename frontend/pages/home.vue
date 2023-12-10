@@ -93,7 +93,10 @@ const handlePost = async() => {
 </div>    
 
 <div v-for="(tweet, index) in tweets" :key="index" class="hover:cursor-pointer card flex px-4 py-3 hover:bg-gray-100 duration-200 transition-200">
-    <img src="~/assets/images/profile.jpg" class="rounded-full h-[42px]"/>
+    <div v-if="!tweet.user.avatar" class="flex items-center justify-center h-[42px] w-[45px] mt-1 bg-neutral-300 rounded-full">
+        <p class="text-neutral-700 font-bold mb-[1px] text-sm">{{ `${tweet.user.firstname.split("")[0]}${tweet.user.lastname.split("")[0]}`}}</p>
+    </div>
+    <img v-else src="~/assets/images/profile.jpg" class="rounded-full h-[42px]"/>
     <div class="pl-6 w-full">
         <div class="flex justify-between w-full">
             <div class="userinfo flex space-x-1">

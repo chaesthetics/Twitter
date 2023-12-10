@@ -6,11 +6,11 @@ import useUser from "../composables/user";
 const { logOut, getUser, userData } = useUser();
 
 
-onMounted(()=>{
+onMounted(async()=>{
     if(!localStorage.getItem("token")){
         navigateTo('/');
     }
-    getUser();
+    await getUser();
 });
 </script>
 <template>
@@ -36,7 +36,11 @@ onMounted(()=>{
         <div class="information py-2 px-5">
             <div class="grid grid-cols-7">
                 <div class="col-span-2 profilepic h-5 hover:cursor-pointer">
-                    <img src="~/assets/images/profile.jpg" 
+                    <div v-if="!userData.avatar" 
+                        class="w-28 h-28 md:w-36 md:h-36 bg-neutral-300 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[86px] justify-center">
+                        <p class="text-neutral-700 mb-1 md:mb-2 font-bold text-2xl md:text-4xl">{{ `${userData.firstname?.split("")[0]}${userData.lastname?.split("")[0]}` }}</p>
+                    </div>
+                    <img v-else src="~/assets/images/profile.jpg" 
                     class="rounded-full border border-white border-t-[4px] border-l-[3px] border-r-[3px] h-auto max-h-[140px] w-auto -mt-16 md:-mt-[86px] object-contain"/>
                 </div>
                 <div class="flex space-x-2 col-span-5 justify-end">
