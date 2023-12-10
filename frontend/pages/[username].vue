@@ -6,18 +6,18 @@ import useUser from "../composables/user";
 const { logOut, getUser, userData } = useUser();
 
 
-onMounted(()=>{
+onMounted(async()=>{
     if(!localStorage.getItem("token")){
         navigateTo('/');
     }
-    getUser();
+    await getUser();
 });
 </script>
 <template>
 <div>
     <div class="navbar flex space-x-4 items-center sticky top-0 backdrop-blur-sm bg-white bg-opacity-80">
         <div class="p-2">
-            <NuxtLink to="/home" class="w-10 h-10 py-0 rounded-full hover:bg-gray-300 flex items-center justify-center duration-300">
+            <NuxtLink to="/home" class="w-10 h-10 py-0 z-10 rounded-full hover:bg-gray-300 flex items-center justify-center duration-300">
               <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(15, 20, 25);"><g><path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"></path></g></svg>
             </NuxtLink>
         </div>
@@ -36,7 +36,11 @@ onMounted(()=>{
         <div class="information py-2 px-5">
             <div class="grid grid-cols-7">
                 <div class="col-span-2 profilepic h-5 hover:cursor-pointer">
-                    <img src="~/assets/images/profile.jpg" 
+                    <div v-if="!userData.avatar" 
+                        class="w-28 h-28 md:w-36 md:h-36 bg-teal-950 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[86px] justify-center">
+                        <p class="text-white mb-2 md:mb-3 font-bold text-3xl md:text-5xl">{{ `${userData.firstname?.split("")[0]}${userData.lastname?.split("")[0]}` }}</p>
+                    </div>
+                    <img v-else src="~/assets/images/profile.jpg" 
                     class="rounded-full border border-white border-t-[4px] border-l-[3px] border-r-[3px] h-auto max-h-[140px] w-auto -mt-16 md:-mt-[86px] object-contain"/>
                 </div>
                 <div class="flex space-x-2 col-span-5 justify-end">
@@ -73,11 +77,11 @@ onMounted(()=>{
                 </div>
             </div>
         </div>
-       <div class="navbar flex justify-between items-center sticky top-0 backdrop-blur-sm border-b-[1px] border-gray-200 bg-white bg-opacity-80">
+       <div class="flex justify-between items-center border-b-[1px] border-gray-200 bg-white bg-opacity-80">
             <div class="flex justify-around w-full font-semibold text-center hover:cursor-pointer">
                 <div class="relative w-full py-3 hover:bg-gray-200 duration-300 flex-col h-full">
-                    <p class="h-full border-b-3 mb-auto">Posts</p>
-                    <div class="absolute inset-x-0 bottom-0 end-0 content-end self-end mt-auto w-4/12 h-1 rounded bg-sky-500 mr-auto ml-auto"></div>
+                    <p class="h-full border-b-3">Posts</p>
+                    <div class="absolute inset-x-0 bottom-0 w-4/12 h-1 rounded bg-sky-500 mr-auto ml-auto"></div>
                 </div>
                 <p class="w-full text-gray-600 py-3 hover:bg-gray-200 duration-300">Replies</p>
                 <p class="w-full text-gray-600 py-3 hover:bg-gray-200 duration-300">Highlights</p>
