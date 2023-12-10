@@ -1,13 +1,16 @@
 <script setup>
 import { onMounted } from "vue";
+import { useRouter } from "vue-router"
 import { initFlowbite } from 'flowbite';
 import useUser from "../composables/user";
 
 const { logOut, getUser, userData } = useUser();
 
-onMounted(()=>{
+const router = useRouter();
+
+onMounted( async()=> {
     initFlowbite();
-    getUser();
+    await getUser();
 });
 
 </script>
@@ -39,7 +42,7 @@ onMounted(()=>{
         <div class="side-items md:ml-10">
             <NuxtLink to="/message" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
                 hover:bg-gray-300">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#191919" class="bi bi-envelope" viewBox="0 0 16 16" stroke="#191919"> <path stroke-width="0.3" d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/> </svg>
+                 <svg viewBox="0 0 24 24" aria-hidden="true" width="25" height="25" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(15, 20, 25);"><g><path d="M1.998 5.5c0-1.381 1.119-2.5 2.5-2.5h15c1.381 0 2.5 1.119 2.5 2.5v13c0 1.381-1.119 2.5-2.5 2.5h-15c-1.381 0-2.5-1.119-2.5-2.5v-13zm2.5-.5c-.276 0-.5.224-.5.5v2.764l8 3.638 8-3.636V5.5c0-.276-.224-.5-.5-.5h-15zm15.5 5.463l-8 3.636-8-3.638V18.5c0 .276.224.5.5.5h15c.276 0 .5-.224.5-.5v-8.037z"></path></g></svg>
                 <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">Messages</span>
             </NuxtLink>
         </div>
@@ -65,7 +68,7 @@ onMounted(()=>{
             </NuxtLink>
         </div>
         <div class="side-items md:ml-10">
-            <NuxtLink to="/profile" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
+            <NuxtLink :to="`/${userData.email?.split('@')[0]}`" class="py-2.5 px-0 md:px-3 block md:flex flex items-center justify-center md:justify-start w-full md:w-5/6 rounded-full duration-300 cursor-pointer
                 hover:bg-gray-300">
                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#191919" class="bi bi-person" viewBox="0 0 16 16"> <path stroke-width="0.3" d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/> </svg>
                 <span class="text-[0px] md:text-[20px] ml-0 md:ml-4 md:font-normal invisible md:visible">Profile</span>
@@ -79,14 +82,14 @@ onMounted(()=>{
             </NuxtLink>
         </div>
         <button class="side-items mt-2 ml-auto mr-auto md:mr-0 md:ml-10 flex justify-center md:justify-start bg-sky-500 text-white font-bold py-3.5 px-2.5 w-4/6 rounded-full hover:bg-sky-600 duration-300">
-                <h1 class="invisible md:visible md:ml-auto md:mr-auto text-[0px] md:text-[15px]">Tweet</h1>
+                <h1 class="invisible md:visible md:ml-auto text-center md:mr-auto text-[0px] md:text-[15px]">Tweet</h1>
                 <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter visible md:invisible" viewBox="0 0 16 16"> <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" fill="white"></path> </svg>
         </button>
     </div>
     <button data-tooltip-target="tooltip-top" data-tooltip-placement="top"  data-tooltip-trigger="click" type="button" class="pr-2 side-items ml-0 md:ml-10 pb-3">
         <div class="text-white font-bold py-2 px-0 justify-center md:px-2.5 ml-1 w-full rounded-full flex md:justify-between items-center hover:bg-gray-300 duration-300">
             <div class="flex space-x-0 md:space-x-2 flex items-center w-12 cursor-pointer">
-                <img src="~/assets/images/profile.jpg" class="rounded-full h-[45px] ml-2"/>
+                <img src="~/assets/images/profile.jpg" class="rounded-full h-[45px] ml-[9px]"/>
                 <div class="collapse md:visible">
                     <p class="text-black font-bold leading-4 text-left">{{ userData.firstname }}</p>
                     <p class="leading-4 font-normal text-xs text-gray-600">{{ userData.email }}</p>

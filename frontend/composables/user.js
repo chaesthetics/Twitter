@@ -25,7 +25,7 @@ const useUser = () => {
             errors.value = err.response.data.data;
         }
     } 
-
+    
     const logOut = async() => {
         try{
             localStorage.removeItem("token");
