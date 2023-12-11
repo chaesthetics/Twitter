@@ -11,7 +11,7 @@ const useUser = () => {
         try{
             await axios.post(`${baseURL}/signup`, data);
         }catch(err){
-            errors.value = err.response.data;
+            errors.value = err.response.data.data;
         }
     }
 
