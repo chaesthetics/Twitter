@@ -2,8 +2,9 @@
 import { reactive } from "vue";
 import useUser from '../composables/user';
 
-const { signUp, errors } = useUser();
+const { signUp, errors, errorsMessage } = useUser();
 
+const isError = ref(false);
 const initialState = {
     firstname: '',
     lastname: '',
@@ -28,6 +29,8 @@ const errorMessage = reactive({
     confirmPassword: "",
 });
 
+const toastMessage = ref('');
+
 const signupForm = reactive({...initialState});
 
 const signupSubmitHandler = async() => {
@@ -36,6 +39,7 @@ const signupSubmitHandler = async() => {
         signupErrors.password = false;
         await signUp(signupForm).then(()=>{
             if(errors.value === null){
+                isError.value = true;
                 loginErrors.value = {
                     firstname: false,
                     lastname: false,
@@ -45,6 +49,10 @@ const signupSubmitHandler = async() => {
                 }
                 navigateTo({ path: "/" });
             }else{
+                isError.value = true;
+                setTimeout((()=>{
+                    isError.value = false;
+                }), 3000);
                 if(errors.value.firstname!==undefined){
                     signupErrors.firstname = true;
                     errorMessage.firstname = errors.value?.firstname[0];
@@ -74,7 +82,7 @@ const signupSubmitHandler = async() => {
                     errorMessage.password = "";
                 }
             }
-            console.log(signupErrors.firstname);
+            toastMessage.value = errorsMessage.value.message;
         });
     }else{
         signupErrors.password = true;
@@ -85,6 +93,24 @@ const signupSubmitHandler = async() => {
 </script>
 <template>
 <div class="flex justify-around h-screen mt-5">
+    <div v-if="isError" class="absolute right-10 top-8">
+        <div id="toast-warning" class="flex items-center w-full max-w-xs p-4 text-gray-500 bg-red-100 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-300 rounded-lg dark:bg-orange-700 dark:text-orange-200">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
+            </svg>
+            <span class="sr-only">Warning icon</span>
+        </div>
+        <div class="ms-3 text-sm font-normal">{{ toastMessage }}</div>
+        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-warning" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+            </svg>
+        </button>
+        </div>
+    </div>
+
     <div class="logo flex h-min-full items-center">
        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-[0px] md:h-[300px] content-center r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18jsvk2 r-rxcuwo r-1777fci r-m327ed r-494qqr"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
     </div>
@@ -92,7 +118,7 @@ const signupSubmitHandler = async() => {
         <p class="ml-auto mr-auto md:ml-0 md:mr-0 text-6xl font-bold mt-20 mx-4 md:mx-0 w-5/6 sm:w-full">Register Now!</p>
         <p class="ml-auto mr-auto md:ml-0 md:mr-0 text-4xl font-bold mx-4 md:mx-0 w-5/6 sm:w-4/6">Join Today.</p>
         <form class="space-y-5 justify-center" @submit.prevent="signupSubmitHandler">
-            <div class="flex space-x-2 mx-5 md:mx-0 w-9/12 md:w-11/12">
+            <div class="flex space-x-2 mx-5 md:mx-0 w-9/12">
                 <div class="flex flex-col w-3/6 ml-10 md:ml-0">
                     <input v-model="signupForm.firstname" class="border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border rounded-md text-lg text-black px-3 py-2" placeholder="Enter your firstname" type="text"/>
                     <div v-if="signupErrors.firstname!==false" class="flex">
@@ -107,12 +133,12 @@ const signupSubmitHandler = async() => {
                 </div>
             </div>
             <div class="flex flex-col">
-                <input v-model="signupForm.email" class="ml-[60px] md:ml-0 md:mr-0 border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border w-8/12 md:w-10/12 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your email" type="email"/>
+                <input v-model="signupForm.email" class="ml-[60px] md:ml-0 md:mr-0 border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border w-9/12 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your email" type="email"/>
                 <div v-if="signupErrors.email!==false" class="flex">
                     <p class="ml-[60px] md:ml-0 text-xs text-red-700">{{ errorMessage.email }}</p>
                 </div>
             </div>
-             <div class="flex space-x-2 mx-5 md:mx-0 w-9/12 md:w-11/12">
+             <div class="flex space-x-2 mx-5 md:mx-0 w-9/12">
                 <div class="flex flex-col w-3/6 ml-10 md:ml-0">
                     <input v-model="signupForm.password" class="border-gray-400 border rounded-md text-lg text-black px-3 py-2 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600" placeholder="Enter your password" type="password"/>
                     <div v-if="signupErrors.password!==false" class="flex flex-col">

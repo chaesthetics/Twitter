@@ -52,7 +52,7 @@ class SignupRequest extends FormRequest
     {
         throw new HttpResponseException(response()->json([
             'success' => false,
-            'message' => 'Validation Error',
+            'message' => 'Registration failed!',
             'data' => $validator->errors(),
         ], 422));
     }

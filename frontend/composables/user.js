@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 const useUser = () => {
     const errors = ref({});
     const userData = ref({});
+    const errorsMessage = ref({});
 
     const baseURL = 'http://127.0.0.1:8000/api';
     
@@ -12,6 +13,7 @@ const useUser = () => {
             await axios.post(`${baseURL}/signup`, data);
         }catch(err){
             errors.value = err.response.data.data;
+            errorsMessage.value = err.response.data;
         }
     }
 
@@ -50,7 +52,8 @@ const useUser = () => {
         logOut,
         getUser,
         userData,
-        errors,        
+        errors,     
+        errorsMessage,   
     }
 }
 
