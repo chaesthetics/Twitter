@@ -3,6 +3,7 @@ import { useRouter } from "vue-router";
 
 const useUser = () => {
     const errors = ref({});
+    const successMessage = ref({});
     const userData = ref({});
     const errorsMessage = ref({});
 
@@ -10,7 +11,8 @@ const useUser = () => {
     
     const signUp = async(data) => {
         try{
-            await axios.post(`${baseURL}/signup`, data);
+            const response = await axios.post(`${baseURL}/signup`, data);
+            successMessage.value = response.data.message;
         }catch(err){
             errors.value = err.response.data.data;
             errorsMessage.value = err.response.data;
@@ -54,6 +56,7 @@ const useUser = () => {
         userData,
         errors,     
         errorsMessage,   
+        successMessage,
     }
 }
 

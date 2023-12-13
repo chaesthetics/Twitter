@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from "vue";
+import { onMounted, reactive } from "vue";
 import useUser from '../composables/user';
 
 const { logIn, errors } = useUser();
