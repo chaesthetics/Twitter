@@ -1,17 +1,25 @@
 import axios from "axios";
+import { ref } from 'vue';
 import { useRouter } from "vue-router";
+ 
+const router = useRouter();
 
 const useUser = () => {
     const errors = ref({});
     const userData = ref({});
-
+    const errorsMessage = ref({});
+    const successMessage = ref('');
+    
     const baseURL = 'http://127.0.0.1:8000/api';
     
     const signUp = async(data) => {
         try{
-            await axios.post(`${baseURL}/signup`, data);
+            const response = await axios.post(`${baseURL}/signup`, data);
+            localStorage.setItem("signUp", response.data.message);
+            navigateTo({path : "/"});
         }catch(err){
-            errors.value = err.response.data;
+            errors.value = err.response?.data.data;
+            errorsMessage.value = err.response?.data;
         }
     }
 
@@ -50,7 +58,9 @@ const useUser = () => {
         logOut,
         getUser,
         userData,
-        errors,        
+        errors,     
+        errorsMessage, 
+        successMessage,
     }
 }
 
