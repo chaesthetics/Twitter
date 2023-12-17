@@ -1,9 +1,11 @@
 import axios from "axios";
+import { ref } from 'vue';
 import { useRouter } from "vue-router";
+ 
+const router = useRouter();
 
 const useUser = () => {
     const errors = ref({});
-    const successMessage = ref({});
     const userData = ref({});
     const errorsMessage = ref({});
 
@@ -12,10 +14,10 @@ const useUser = () => {
     const signUp = async(data) => {
         try{
             const response = await axios.post(`${baseURL}/signup`, data);
-            successMessage.value = response.data.message;
+            router.push("/");
         }catch(err){
-            errors.value = err.response.data.data;
-            errorsMessage.value = err.response.data;
+            errors.value = err.response?.data.data;
+            errorsMessage.value = err.response?.data;
         }
     }
 
@@ -55,8 +57,7 @@ const useUser = () => {
         getUser,
         userData,
         errors,     
-        errorsMessage,   
-        successMessage,
+        errorsMessage, 
     }
 }
 

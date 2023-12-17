@@ -1,13 +1,22 @@
 <script setup>
 import { onMounted, reactive } from "vue";
 import useUser from '../composables/user';
+import { useRouter } from "vue-router";
 
-const { logIn, errors } = useUser();
+const router = useRouter();
+
+const { logIn, errors, successMessage } = useUser();
 
 const initialState = {
     email: '',
     password: '',
 }
+
+const toastSuccess = ref(''); 
+
+onMounted(()=>{
+    console.log(router.currentRoute.value.params);
+});
 
 const loginErrors = reactive({
     email: false,

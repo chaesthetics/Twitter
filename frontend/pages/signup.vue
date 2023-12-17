@@ -41,35 +41,35 @@ const signupSubmitHandler = async() => {
         signupErrors.password = false;
 
         await signUp(signupForm).then(()=>{
-            if(errors.value==={}){
-                 navigateTo({ path: "/" });
+            if(!errors.value){
+                 
             }else{
                 isError.value = true;
                 setTimeout((()=>{
                     isError.value = false;
                 }), 5000);
-                if(errors.value.firstname!==undefined){
+                if(errors.value?.firstname!==undefined){
                     signupErrors.firstname = true;
                     errorMessage.firstname = errors.value?.firstname[0];
                 }else{
                     signupErrors.firstname = false;
                     errorMessage.firstname = "";
                 }
-                if(errors.value.lastname!==undefined){
+                if(errors.value?.lastname!==undefined){
                     signupErrors.lastname = true;
                     errorMessage.lastname = errors.value?.lastname[0];
                 }else{
                     signupErrors.lastname = false;
                     errorMessage.lastname = "";
                 }
-                if(errors.value.email!==undefined){
+                if(errors.value?.email!==undefined){
                     signupErrors.email = true;
                     errorMessage.email = errors.value?.email[0];
                 }else{
                     signupErrors.email = false;
                     errorMessage.email = "";
                 }
-                if(errors.value.password!==undefined){
+                if(errors.value?.password!==undefined){
                     signupErrors.password = true;
                     errorMessage.password = errors.value?.password[0];
                 }else{
@@ -77,7 +77,7 @@ const signupSubmitHandler = async() => {
                     errorMessage.password = "";
                 }
             }
-            toastMessage.value = errorsMessage.value.message;
+            toastMessage.value = errorsMessage.value?.message;
         });
     }else{
         signupErrors.password = true;
