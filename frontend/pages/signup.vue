@@ -1,8 +1,11 @@
 <script setup>
 import { reactive } from "vue";
+import { useRouter } from "vue-router";
 import useUser from '../composables/user';
 
-const { signUp, errors, errorsMessage } = useUser();
+const router = useRouter();
+
+const { signUp, errors, errorsMessage, successMessage } = useUser();
 
 const isError = ref(false);
 const initialState = {
@@ -42,8 +45,8 @@ const signupSubmitHandler = async() => {
 
         await signUp(signupForm).then(()=>{
             if(!errors.value){
-                 
-            }else{
+            
+            }else{  
                 isError.value = true;
                 setTimeout((()=>{
                     isError.value = false;
@@ -89,7 +92,7 @@ const signupSubmitHandler = async() => {
 <template>
 <div class="flex justify-around h-screen mt-5">
     <div v-if="isError" class="absolute right-10 top-8 w-60 animate-bounce">
-        <div id="toast-warning" class="flex items-center max-w-xs px-7 py-2 text-gray-500 bg-red-100 border-t-4 border-red-500 rounded-sm shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+        <div id="toast-warning" class="flex items-center max-w-xs px-7 py-2 text-gray-500 bg-red-100 border-t-4 border-red-500 rounded-md shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
         <div>
             <span class="text-md font-bold text-red-600">Error</span>
             <div class="text-xs text-red-700 font-normal duration-300">{{ toastMessage }}</div>
