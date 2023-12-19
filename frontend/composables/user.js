@@ -9,7 +9,7 @@ const useUser = () => {
     const userData = ref({});
     const errorsMessage = ref({});
     const successMessage = ref('');
-    
+
     const baseURL = 'http://127.0.0.1:8000/api';
     
     const signUp = async(data) => {
@@ -31,6 +31,7 @@ const useUser = () => {
             errors.value = null
         }catch(err){
             errors.value = err.response.data.data;
+            errorsMessage.value = err.response?.data.message;
         }
     } 
     
