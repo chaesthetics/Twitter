@@ -38,7 +38,7 @@ const loginForm = reactive({...initialState});
 const loginSubmitHandler = async() => { 
     await logIn(loginForm)
     .then(()=>{
-        if(errors.value === null){
+        if(!errors.value){
             loginErrors.value = {
                 email: false,
                 password: false,
@@ -49,13 +49,17 @@ const loginSubmitHandler = async() => {
             setTimeout((()=>{
                     isError.value = false;
                 }), 5000);
-            if(errors.value.email[0]!==''){
+            if(errors.value?.email!==undefined){
                 loginErrors.email = true;
                 errorMessage.email = errors.value?.email[0];
+            }else{
+                errorMessage.email = '';
             }
-            if(errors.value.password[0]!==''){
+            if(errors.value?.password!==undefined){
                 loginErrors.password = true;
                 errorMessage.password = errors.value?.password[0];
+            }else{
+                errorMessage.password = '';
             }
             console.log(errors.value.email[0]);
         }
