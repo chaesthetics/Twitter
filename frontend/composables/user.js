@@ -28,9 +28,10 @@ const useUser = () => {
             const response = await axios.post(`${baseURL}/login`, data);
             localStorage.setItem("token", response.data.data.token);
             localStorage.setItem("user", JSON.stringify(response.data.data.user));
-            errors.value = null
+            localStorage.setItem("signIn", "Logged in successfully");
+            navigateTo({path : "/home"});
         }catch(err){
-            errors.value = err.response.data.data;
+            errors.value = err.response?.data.data;
             errorsMessage.value = err.response?.data.message;
         }
     } 
