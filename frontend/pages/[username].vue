@@ -2,6 +2,7 @@
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
 import useUser from "../composables/user";
+import { initFlowbite } from 'flowbite'
 
 const { logOut, getUser, userData } = useUser();
 
@@ -10,6 +11,7 @@ onMounted(async()=>{
     if(!localStorage.getItem("token")){
         navigateTo('/');
     }
+    initFlowbite();
     await getUser();
 });
 </script>
@@ -17,7 +19,7 @@ onMounted(async()=>{
 <div>
     <div class="navbar flex space-x-4 items-center sticky top-0 backdrop-blur-sm bg-white bg-opacity-80">
         <div class="p-2">
-            <NuxtLink to="/home" class="w-10 h-10 py-0 z-10 rounded-full hover:bg-gray-300 flex items-center justify-center duration-300">
+            <NuxtLink to="/home" class="w-10 h-10 py-0 z-20 rounded-full hover:bg-gray-300 flex items-center justify-center duration-300">
               <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(15, 20, 25);"><g><path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"></path></g></svg>
             </NuxtLink>
         </div>
@@ -44,7 +46,7 @@ onMounted(async()=>{
                     class="rounded-full border border-white border-t-[4px] border-l-[3px] border-r-[3px] h-auto max-h-[140px] w-auto -mt-16 md:-mt-[86px] object-contain"/>
                 </div>
                 <div class="flex space-x-2 col-span-5 justify-end">
-                    <button class="w-9 h-9 py-0 rounded-full hover:bg-gray-300 border border-gray-200 flex items-center justify-center duration-300">
+                    <!-- <button class="w-9 h-9 py-0 rounded-full hover:bg-gray-300 border border-gray-200 flex items-center justify-center duration-300">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16"> <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/> </svg>
                     </button>    
                     <button class="w-9 h-9 py-0 rounded-full hover:bg-gray-300 border border-gray-200 flex items-center justify-center duration-300">
@@ -52,9 +54,64 @@ onMounted(async()=>{
                     </button>   
                     <button class="h-9 follow px-4 rounded-full font-semibold bg-neutral-900 hover:bg-neutral-800 text-white flex items-center">
                         Follow
-                    </button>   
+                    </button>    -->
+                    <button class="border text-[15px] border-1 px-4 py-[5.5px] hover:bg-gray-200 duration-300 transition-300 animation-300  rounded-full font-bold"
+                       data-modal-target="edit-profile-modal" data-modal-toggle="edit-profile-modal" type="button">Edit Profile</button>
                 </div> 
             </div>
+
+                        <!-- Main modal -->
+            <div id="edit-profile-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-scroll overflow-x-hidden fixed top-0 right-0 left-0 z-40 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-screen">
+                <div class="relative w-full h-screen bg-black bg-opacity-40">
+                    <!-- Modal content -->
+                    <form>
+                    <div class="relative ml-auto mr-auto mt-[36px] bg-white h-[600px] rounded-xl shadow dark:bg-gray-700 w-11/12 md:w-5/12">
+                        <!-- Modal header -->
+                        <div class="flex items-center justify-between p-2 md:p-3 rounded-t dark:border-gray-600">
+                            <div class="flex items-center space-x-2">
+                            <button data-modal-hide="edit-profile-modal" class="w-10 h-10 py-0 z-20 rounded-full hover:bg-gray-300 flex items-center justify-center duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
+                            </button>
+                            <p class="text-lg font-bold text-gray-900">Edit Profile</p>
+                            </div>
+                            <button class="bg-gray-900 hover:bg-gray-800 px-4 rounded-full py-[5.5px] text-white text-sm font-bold">Save</button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="space-y-4">
+                            <div class="relative">
+                                <div class="relative">
+                                    <img src="~/assets/images/default.png" class="opacity-80"/>
+                                    <div class="absolute top-[55px] left-[180px] md:top-[70px] md:left-[220px]">
+                                        <div class="flex space-x-4">
+                                            <div class="relative group cursor-pointer">
+                                                <button class="w-12 h-12 py-0 z-20 rounded-full bg-black bg-opacity-80 cursor-pointer group-hover:bg-opacity-60 flex items-center justify-center duration-300">
+                                                    <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="white" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c" style="color: rgb(255, 255, 255);"><g><path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"></path></g></svg>
+                                                </button>
+                                                <input class="absolute top-0 h-[50px] text-5xl left-0 w-12 opacity-0 cursor-pointer" type="file"/>
+                                            </div>
+                                            <button class="cursor-default w-12 h-12 py-0 z-20 rounded-full bg-black bg-opacity-80 hover:bg-opacity-60 flex items-center justify-center duration-300">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                             </div>
+                             <div class="profilepic h-5 hover:cursor-pointer ml-[10px]">
+                                <div class="absolute items-center w-28 h-28 md:w-36 md:h-36 bg-teal-950 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[86px] z-50">
+                                    <p class="text-white mb-2 md:mb-3 font-bold text-3xl ml-auto mr-auto md:text-5xl">{{ `${userData.firstname?.split("")[0]}${userData.lastname?.split("")[0]}` }}</p>
+                                </div>
+                            </div>
+                            <div class="flex w-full flex-col justify-center space-y-4">
+                                <input class="ml-auto mr-auto border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border w-9/12 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your email" type="email"/>
+                                <input class="ml-auto mr-auto border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border w-9/12 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your email" type="email"/>
+                                <input class="ml-auto mr-auto border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border w-9/12 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your email" type="email"/>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="flex mt-6 md:mt-8 items-center space-x-1">
                 <p class="text-black font-bold text-xl">{{ userData.firstname }}</p>
                  <img class="h-5 w-5 mt-1" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADP0lEQVR4nO2az08TQRTHN+hR/QNM9ODVqAcvBk3ovBZ/HMATEcXon2CigvFUj+AN8aAJmEjnlYSTnk3UgzcjnozExKghUVQOwr63tQqseWyBWrtlpu2sVHnJO3R3uvP5zryZNzuznrdl/7ApTVdB+1e8VjSVD84qpCXQtJzO0UWvlUzlfVCavgNyGDn9SCGd8DaDZe4HexXSW0AaTqOf6XgSbi+/r5APA/LCOnzkCok7cnykvGw2G7ZJeYV8QyG/Oj4R7HEuADDo/R2MPwPyWErz6Yz2DyjNs5Xwa2U1z0oZKSv/UdF/y8oEvc4FKKTbcYCNutI04lwAIL90J4CnnMK3j37dqTQtOuyBxZO5uV3OBEDe73QFDyWXicFJy0fw9MC1AJA68n6n1Fk3cCbPuwG5SyEPAtIzpanoHpz/CCeZWgH5rkK6oPL+fmMBgDydNDBs5JpfGwtQyENJA55/WKjdI8iDxgJSOjiaJPzlR4Xw3bel8M5UMV7ARNBuLEBSPGj+lCT8zELk1URIxu6ZDLd5Niap3jV8/+NC+L4MXlx+91WEk0Ie9WxN5bg7yZafKcGLqCrlu6wFyKLLFfxATMv3V4cPhcWu9WWJW2NVmSQ8lFaxwmT+MoI8v1ngYW0cEIGmUzXh0+j32WTdjeZukwHbbwC/3hNUVNo/VxUekC+tvMMaPmzkedEYoJGWh0rXtAxI1xoSIPCmIE2FxxoCTENI5mhToGbDq1ohZDOIq83hH+aXwutPC+7g0WAQ20yjtUQ0v+XZfBq1SWRxM0u1awP1xjzWkcjESlsfGz68Wk80bcBiqQdy3G0tADTfM60gTkQz4CHyMSv4lR0zy6VEpYgmwofWy+kMBsfqqWhVRDPhoeTykmUTPjfrrUgGayMDFuJ7YailX+qVpjctva2SxsI+77/Z2Ioz2fZzLSCV89OeK+uYDHeApp8uw6bdRcuXm2yBOxOA/MIpfCSARpyFkKZbf+OIaQ6QxwGDHjVOh2puiGn+Ann/YDSWaBiQP5bfT+vgjHMBchAneUISi2RHWXaYHPLJtcolcTYbtskzSnux04kc8pkYaF9t2mNWm1Br2YPuVZPPDFr2U4Mt88zsF/L7hiBlV3/sAAAAAElFTkSuQmCC">
