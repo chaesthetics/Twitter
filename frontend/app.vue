@@ -8,6 +8,9 @@ onMounted(()=> {
   console.log(router.currentRoute.value.fullPath);
 });
 
+const toastSuccess = ref("");
+
+
 </script>
 <template>
   <div class="grid grid-cols-7 md:grid-cols-9 w-full">
