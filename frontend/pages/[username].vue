@@ -61,15 +61,15 @@ onMounted(async()=>{
             </div>
 
                         <!-- Main modal -->
-            <div id="edit-profile-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-scroll overflow-x-hidden fixed top-0 right-0 left-0 z-40 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-screen">
+            <div id="edit-profile-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-x-hidden fixed top-0 right-0 left-0 z-40 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-screen">
                 <div class="relative w-full h-screen bg-black bg-opacity-40">
                     <!-- Modal content -->
                     <form>
-                    <div class="relative ml-auto mr-auto mt-[36px] bg-white h-[600px] rounded-xl shadow dark:bg-gray-700 w-11/12 md:w-5/12">
+                    <div class="relative ml-auto mr-auto md:mt-[36px] bg-white h-screen overflow-y-scroll md:h-[600px] md:rounded-xl shadow dark:bg-gray-700 w-12/12 h-screen md:w-5/12">
                         <!-- Modal header -->
-                        <div class="flex items-center justify-between p-2 md:p-3 rounded-t dark:border-gray-600">
+                        <div class="sticky top-0 backdrop-blur-sm bg-white bg-opacity-80 z-50 flex items-center justify-between p-2 md:p-3 rounded-t dark:border-gray-600">
                             <div class="flex items-center space-x-2">
-                            <button data-modal-hide="edit-profile-modal" class="w-10 h-10 py-0 z-20 rounded-full hover:bg-gray-300 flex items-center justify-center duration-300">
+                            <button data-modal-hide="edit-profile-modal" class="w-10 h-10 py-0 z-20 rounded-full hover:bg-gray-300 flex items-center justify-center duration-300" type="button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
                             </button>
                             <p class="text-lg font-bold text-gray-900">Edit Profile</p>
@@ -77,7 +77,7 @@ onMounted(async()=>{
                             <button class="bg-gray-900 hover:bg-gray-800 px-4 rounded-full py-[5.5px] text-white text-sm font-bold">Save</button>
                         </div>
                         <!-- Modal body -->
-                        <div class="space-y-4">
+                        <div class="space-y-4 md:h-[520px]">
                             <div class="relative">
                                 <div class="relative">
                                     <img src="~/assets/images/default.png" class="opacity-80"/>
@@ -95,15 +95,32 @@ onMounted(async()=>{
                                         </div>
                                     </div>
                              </div>
-                             <div class="profilepic h-5 hover:cursor-pointer ml-[10px]">
-                                <div class="absolute items-center w-28 h-28 md:w-36 md:h-36 bg-teal-950 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[86px] z-50">
-                                    <p class="text-white mb-2 md:mb-3 font-bold text-3xl ml-auto mr-auto md:text-5xl">{{ `${userData.firstname?.split("")[0]}${userData.lastname?.split("")[0]}` }}</p>
+                             <div class="profilepic h-5 hover:cursor-pointer ml-[10px] z-20">
+                                <div class="absolute z-20 items-center w-28 h-28 md:w-32 md:h-32 bg-teal-950 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[70px]">
+                                    <p class="text-white mb-2 md:mb-2 font-bold text-3xl ml-auto mr-auto md:text-4xl">{{ `${userData.firstname?.split("")[0]}${userData.lastname?.split("")[0]}` }}</p>
                                 </div>
                             </div>
-                            <div class="flex w-full flex-col justify-center space-y-4">
-                                <input class="ml-auto mr-auto border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border w-9/12 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your email" type="email"/>
-                                <input class="ml-auto mr-auto border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border w-9/12 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your email" type="email"/>
-                                <input class="ml-auto mr-auto border-gray-400 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring active:border-sky-600 border w-9/12 rounded-md text-lg text-black px-3 py-2" placeholder="Enter your email" type="email"/>
+                            <div class="flex w-full flex-col justify-center items-center space-y-4 mt-10 md:mt-14 pb-5 md:pb-8">
+                                <div class="w-11/12 relative">
+                                    <input type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
+                                    <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Firstname</label>
+                                </div>
+                                <div class="w-11/12 relative">
+                                    <input type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
+                                    <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Lastname</label>
+                                </div>
+                                <div class="w-11/12 relative">
+                                    <textarea id="message" rows="3" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer"></textarea>
+                                    <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Biography</label>
+                                </div>
+                                <div class="w-11/12 relative">
+                                    <input type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
+                                    <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Email</label>
+                                </div>
+                                <div class="w-11/12 relative">
+                                    <input type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
+                                    <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Website</label>
+                                </div>
                             </div>
                         </div>
                         </div>
