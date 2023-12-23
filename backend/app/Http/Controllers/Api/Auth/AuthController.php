@@ -43,7 +43,7 @@ class AuthController extends Controller
     {
         try{
             $credentials = $request->only('email', 'password');
-            if (Auth::attempt($credentials)) {
+            if(Auth::attempt($credentials)) {
 
                 $user = User::where('email', $request->email)->first();
                 $token = $user->createToken('myToken')->plainTextToken;
@@ -57,6 +57,7 @@ class AuthController extends Controller
                         'email' => $user->email,
                         'bio' => $user->bio,
                         'avatar' => $user->avatar,
+                        'cover' => $user->cover,
                     ]
                 ]);
             }else{
