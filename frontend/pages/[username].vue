@@ -14,12 +14,41 @@ onMounted(async()=>{
     await getUser();
 });
 
-const profilePicHandler = async() => {
-    //  Temp Function Here
+const convertToBase64 = async (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+};
+
+const profilePicHandler = async(event) => {
+    const selectedProfile = event.target.files[0];
+    // console.log(selectedProfile); 
+    if(selectedProfile){
+        try{
+            const base64Profile = await convertToBase64(selectedProfile);
+            userData.value.avatar = base64Profile;
+            // console.log(userData.avatar); 
+        }catch(err){
+            console.error("Error in converting image to base64", err);
+        }
+    }
 }
 
-const coverPicHandler = async() => {
-    //  Temp Function Here
+const coverPicHandler = async(event) => {
+    const selectedCover = event.target.files[0];
+    // console.log(selectedProfile); 
+    if(selectedCover){
+        try{
+            const base64Cover = await convertToBase64(selectedCover);
+            userData.value.cover = base64Cover;
+        }catch(err){
+            console.error("Error in converting image to base64", err);
+        }
+    }
+    
 }
 
 </script>
@@ -50,7 +79,7 @@ const coverPicHandler = async() => {
             <div class="grid grid-cols-7">
                 <div class="col-span-2 profilepic h-5 hover:cursor-pointer">
                     <div v-if="!userData.avatar" 
-                        class="w-28 h-28 md:w-36 md:h-36 bg-teal-950 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[86px] justify-center">
+                        class="w-28 h-28 md:w-36 md:h-36 bg-stone-700 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[86px] justify-center">
                         <p class="text-white mb-2 md:mb-3 font-bold text-3xl md:text-5xl">{{ `${userData.firstname?.split("")[0] ? userData.firstname?.split("")[0] : "" }${userData.lastname?.split("")[0] ? userData.lastname?.split("")[0] : ""}`}}</p>
                     </div>
                     <img v-else src="~/assets/images/profile.jpg" 
@@ -92,14 +121,14 @@ const coverPicHandler = async() => {
                             <div class="relative">
                                 <div class="relative px-[2px]">
                                     <!-- <img src="~/assets/images/default.png" class="brightness-50"/> -->
-                                    <div class="h-[162px] md:h-[183px] bg-sky-400 w-full"></div>
+                                    <div class="h-[162px] md:h-[183px] bg-sky-400 w-full brightness-50"></div>
                                     <div class="absolute top-[55px] left-[180px] md:top-[70px] md:left-[220px]">
                                         <div class="flex space-x-4">
                                             <div class="relative group">
                                                 <button class="w-12 h-12 py-0 z-20 rounded-full bg-black bg-opacity-80 cursor-pointer group-hover:bg-opacity-60 flex items-center justify-center duration-300">
                                                     <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="white" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c" style="color: rgb(255, 255, 255);"><g><path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"></path></g></svg>
                                                 </button>
-                                                <input class="absolute top-0 h-[50px] text-5xl left-0 w-12 opacity-0 cursor-pointer" type="file"/>
+                                                <input @change="coverPicHandler" class="absolute top-0 h-[50px] text-5xl left-0 w-12 opacity-0 cursor-pointer" type="file"/>
                                             </div>
                                             <button class="cursor-default w-12 h-12 py-0 z-20 rounded-full bg-black bg-opacity-80 hover:bg-opacity-60 flex items-center justify-center duration-300">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
@@ -108,33 +137,33 @@ const coverPicHandler = async() => {
                                     </div>
                              </div>
                              <div class="relative profilepic h-5 ml-[10px] z-20 group">
-                                <div class="absolute brightness-50 z-20 items-center w-28 h-28 md:w-32 md:h-32 bg-teal-950 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[70px]">
+                                <div class="absolute brightness-50 z-20 items-center w-28 h-28 md:w-32 md:h-32 bg-stone-700 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[70px]">
                                         <p class="text-white mb-2 md:mb-2 font-bold text-3xl ml-auto mr-auto md:text-4xl">{{ `${userData.firstname?.split("")[0] ? userData.firstname?.split("")[0] : ""}${userData.lastname?.split("")[0] ? userData.lastname?.split("")[0] : ""}` }}</p>
                                 </div>
                                 <button class="absolute top-[-27px] md:top-[-25px] left-[32px] md:left-[40px] w-12 h-12 py-0 z-20 group-hover:bg-opacity-60 rounded-full bg-black bg-opacity-80 cursor-pointer group-hover:bg-opacity-60 flex items-center justify-center duration-300">
                                     <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="white" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c" style="color: rgb(255, 255, 255);"><g><path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"></path></g></svg>
                                 </button>
-                                <input class="absolute opacity-0 h-[50px] text-3xl top-[-22px] md:top-[-22px] left-[35px] md:left-[45px] w-10 z-40" type="file"/>
+                                <input @change="profilePicHandler" class="absolute opacity-0 h-[50px] text-3xl top-[-22px] md:top-[-22px] left-[35px] md:left-[45px] w-10 z-40" type="file"/>
                             </div>
                             <div class="flex w-full flex-col justify-center items-center space-y-4 mt-10 md:mt-14 pb-5 md:pb-8">
                                 <div class="w-11/12 relative">
-                                    <input v-model="userData.firstname" type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
+                                    <input v-model="userData.firstname" type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-300 peer" placeholder=" " />
                                     <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Firstname</label>
                                 </div>
                                 <div class="w-11/12 relative">
-                                    <input v-model="userData.lastname" type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
+                                    <input v-model="userData.lastname" type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-300 peer" placeholder=" " />
                                     <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Lastname</label>
                                 </div>
                                 <div class="w-11/12 relative">
-                                    <textarea v-model="userData.bio" id="message" rows="3" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer"></textarea>
+                                    <textarea v-model="userData.bio" id="message" rows="3" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-300 peer"></textarea>
                                     <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Biography</label>
                                 </div>
                                 <div class="w-11/12 relative">
-                                    <input v-model="userData.email" type="email" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
+                                    <input v-model="userData.email" type="email" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-300 peer" placeholder=" " />
                                     <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Email</label>
                                 </div>
                                 <div class="w-11/12 relative">
-                                    <input type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
+                                    <input type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-300 peer" placeholder=" " />
                                     <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Website</label>
                                 </div>
                             </div>
