@@ -87,7 +87,7 @@ const coverPicHandler = async() => {
                         <!-- Modal body -->
                         <div class="space-y-4 md:h-[520px]">
                             <div class="relative">
-                                <div class="relative">
+                                <div class="relative px-[2px]">
                                     <img src="~/assets/images/default.png" class="brightness-50"/>
                                     <div class="absolute top-[55px] left-[180px] md:top-[70px] md:left-[220px]">
                                         <div class="flex space-x-4">
@@ -103,11 +103,11 @@ const coverPicHandler = async() => {
                                         </div>
                                     </div>
                              </div>
-                             <div class="relative profilepic h-5 ml-[10px] z-20">
+                             <div class="relative profilepic h-5 ml-[10px] z-20 group">
                                 <div class="absolute brightness-50 z-20 items-center w-28 h-28 md:w-32 md:h-32 bg-teal-950 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[70px]">
                                         <p class="text-white mb-2 md:mb-2 font-bold text-3xl ml-auto mr-auto md:text-4xl">{{ `${userData.firstname?.split("")[0] ? userData.firstname?.split("")[0] : ""}${userData.lastname?.split("")[0] ? userData.lastname?.split("")[0] : ""}` }}</p>
                                 </div>
-                                <button class="absolute top-[-27px] md:top-[-25px] left-[32px] md:left-[40px] w-12 h-12 py-0 z-20 hover:bg-opacity-70 rounded-full bg-black bg-opacity-80 cursor-pointer group-hover:bg-opacity-60 flex items-center justify-center duration-300">
+                                <button class="absolute top-[-27px] md:top-[-25px] left-[32px] md:left-[40px] w-12 h-12 py-0 z-20 group-hover:bg-opacity-60 rounded-full bg-black bg-opacity-80 cursor-pointer group-hover:bg-opacity-60 flex items-center justify-center duration-300">
                                     <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="white" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c" style="color: rgb(255, 255, 255);"><g><path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"></path></g></svg>
                                 </button>
                                 <input class="absolute opacity-0 h-[50px] text-3xl top-[-22px] md:top-[-22px] left-[35px] md:left-[45px] w-10 z-40" type="file"/>
