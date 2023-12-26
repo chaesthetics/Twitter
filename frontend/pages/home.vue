@@ -70,7 +70,7 @@ const handlePost = async() => {
     </div>
 </div>
 <div class="card flex px-4 py-3 mt-[-1px]">
-    <div v-if="!userData.avatar" class="flex items-center justify-center h-[42px] w-[42px] md:w-[46px] bg-teal-950 rounded-full">
+    <div v-if="!userData.avatar" class="flex items-center justify-center h-[42px] w-[42px] md:w-[46px] bg-stone-700 rounded-full">
         <p class="text-white font-bold mb-[1px] text-sm">{{ `${userData.firstname?.split("")[0]}${userData.lastname?.split("")[0]}`}}</p>
     </div>
     <img v-else src="~/assets/images/profile.jpg" class="rounded-full h-[42px]"/>
@@ -118,7 +118,7 @@ const handlePost = async() => {
 </div>    
 
 <div v-for="(tweet, index) in tweets" :key="index" class="hover:cursor-pointer card flex px-4 py-3 hover:bg-gray-100 duration-200 transition-200">
-    <div v-if="!tweet.user.avatar" class="flex items-center justify-center h-[42px] w-[48px] md:w-[46px] mt-1 bg-teal-950 rounded-full">
+    <div v-if="!tweet.user.avatar" class="flex items-center justify-center h-[42px] w-[48px] md:w-[46px] mt-1 bg-stone-700 rounded-full">
         <p class="text-white font-bold mb-[1px] text-sm">{{ `${tweet.user.firstname.split("")[0]}${tweet.user.lastname.split("")[0]}`}}</p>
     </div>
     <img v-else src="~/assets/images/profile.jpg" class="rounded-full h-[42px]"/>
