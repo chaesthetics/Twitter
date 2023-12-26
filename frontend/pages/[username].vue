@@ -41,7 +41,10 @@ const coverPicHandler = async() => {
     </div>
 <div class="profile">
         <div class="cover w-full hover:cursor-pointer">
-            <img src="~/assets/images/default.png" class=""/>
+            <!-- <img src="~/assets/images/default.png" class=""/> -->
+            <div class="h-[140px] md:h-[200px] w-full bg-sky-400">
+
+            </div>
         </div>
         <div class="information py-2 px-5">
             <div class="grid grid-cols-7">
@@ -88,7 +91,8 @@ const coverPicHandler = async() => {
                         <div class="space-y-4 md:h-[520px]">
                             <div class="relative">
                                 <div class="relative px-[2px]">
-                                    <img src="~/assets/images/default.png" class="brightness-50"/>
+                                    <!-- <img src="~/assets/images/default.png" class="brightness-50"/> -->
+                                    <div class="h-[162px] md:h-[183px] bg-sky-400 w-full"></div>
                                     <div class="absolute top-[55px] left-[180px] md:top-[70px] md:left-[220px]">
                                         <div class="flex space-x-4">
                                             <div class="relative group">
