@@ -1,11 +1,10 @@
 <script setup>
 import { useRoute } from "vue-router";
-import { onMounted } from "vue";
+import { onMounted, reactive } from "vue";
 import useUser from "../composables/user";
 import { initFlowbite } from 'flowbite'
 
-const { logOut, getUser, userData } = useUser();
-
+const { logOut, getUser, userData, updateProfile } = useUser();
 
 onMounted(async()=>{
     if(!localStorage.getItem("token")){
@@ -14,6 +13,15 @@ onMounted(async()=>{
     initFlowbite();
     await getUser();
 });
+
+const profilePicHandler = async() => {
+    //  Temp Function Here
+}
+
+const coverPicHandler = async() => {
+    //  Temp Function Here
+}
+
 </script>
 <template>
 <div>
@@ -33,14 +41,17 @@ onMounted(async()=>{
     </div>
 <div class="profile">
         <div class="cover w-full hover:cursor-pointer">
-            <img src="~/assets/images/default.png" class=""/>
+            <!-- <img src="~/assets/images/default.png" class=""/> -->
+            <div class="h-[140px] md:h-[200px] w-full bg-sky-400">
+
+            </div>
         </div>
         <div class="information py-2 px-5">
             <div class="grid grid-cols-7">
                 <div class="col-span-2 profilepic h-5 hover:cursor-pointer">
                     <div v-if="!userData.avatar" 
                         class="w-28 h-28 md:w-36 md:h-36 bg-teal-950 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[86px] justify-center">
-                        <p class="text-white mb-2 md:mb-3 font-bold text-3xl md:text-5xl">{{ `${userData.firstname?.split("")[0]}${userData.lastname?.split("")[0]}` }}</p>
+                        <p class="text-white mb-2 md:mb-3 font-bold text-3xl md:text-5xl">{{ `${userData.firstname?.split("")[0] ? userData.firstname?.split("")[0] : "" }${userData.lastname?.split("")[0] ? userData.lastname?.split("")[0] : ""}`}}</p>
                     </div>
                     <img v-else src="~/assets/images/profile.jpg" 
                     class="rounded-full border border-white border-t-[4px] border-l-[3px] border-r-[3px] h-auto max-h-[140px] w-auto -mt-16 md:-mt-[86px] object-contain"/>
@@ -74,16 +85,17 @@ onMounted(async()=>{
                             </button>
                             <p class="text-lg font-bold text-gray-900">Edit Profile</p>
                             </div>
-                            <button class="bg-gray-900 hover:bg-gray-800 px-4 rounded-full py-[5.5px] text-white text-sm font-bold">Save</button>
+                            <button @click.prevent="updateProfile(userData.id)" class="bg-gray-900 hover:bg-gray-800 px-4 rounded-full py-[5.5px] text-white text-sm font-bold" type="submit">Save</button>
                         </div>
                         <!-- Modal body -->
                         <div class="space-y-4 md:h-[520px]">
                             <div class="relative">
-                                <div class="relative">
-                                    <img src="~/assets/images/default.png" class="opacity-80"/>
+                                <div class="relative px-[2px]">
+                                    <!-- <img src="~/assets/images/default.png" class="brightness-50"/> -->
+                                    <div class="h-[162px] md:h-[183px] bg-sky-400 w-full"></div>
                                     <div class="absolute top-[55px] left-[180px] md:top-[70px] md:left-[220px]">
                                         <div class="flex space-x-4">
-                                            <div class="relative group cursor-pointer">
+                                            <div class="relative group">
                                                 <button class="w-12 h-12 py-0 z-20 rounded-full bg-black bg-opacity-80 cursor-pointer group-hover:bg-opacity-60 flex items-center justify-center duration-300">
                                                     <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="white" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c" style="color: rgb(255, 255, 255);"><g><path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"></path></g></svg>
                                                 </button>
@@ -95,26 +107,30 @@ onMounted(async()=>{
                                         </div>
                                     </div>
                              </div>
-                             <div class="profilepic h-5 hover:cursor-pointer ml-[10px] z-20">
-                                <div class="absolute z-20 items-center w-28 h-28 md:w-32 md:h-32 bg-teal-950 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[70px]">
-                                    <p class="text-white mb-2 md:mb-2 font-bold text-3xl ml-auto mr-auto md:text-4xl">{{ `${userData.firstname?.split("")[0]}${userData.lastname?.split("")[0]}` }}</p>
+                             <div class="relative profilepic h-5 ml-[10px] z-20 group">
+                                <div class="absolute brightness-50 z-20 items-center w-28 h-28 md:w-32 md:h-32 bg-teal-950 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[70px]">
+                                        <p class="text-white mb-2 md:mb-2 font-bold text-3xl ml-auto mr-auto md:text-4xl">{{ `${userData.firstname?.split("")[0] ? userData.firstname?.split("")[0] : ""}${userData.lastname?.split("")[0] ? userData.lastname?.split("")[0] : ""}` }}</p>
                                 </div>
+                                <button class="absolute top-[-27px] md:top-[-25px] left-[32px] md:left-[40px] w-12 h-12 py-0 z-20 group-hover:bg-opacity-60 rounded-full bg-black bg-opacity-80 cursor-pointer group-hover:bg-opacity-60 flex items-center justify-center duration-300">
+                                    <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="white" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c" style="color: rgb(255, 255, 255);"><g><path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"></path></g></svg>
+                                </button>
+                                <input class="absolute opacity-0 h-[50px] text-3xl top-[-22px] md:top-[-22px] left-[35px] md:left-[45px] w-10 z-40" type="file"/>
                             </div>
                             <div class="flex w-full flex-col justify-center items-center space-y-4 mt-10 md:mt-14 pb-5 md:pb-8">
                                 <div class="w-11/12 relative">
-                                    <input type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
+                                    <input v-model="userData.firstname" type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
                                     <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Firstname</label>
                                 </div>
                                 <div class="w-11/12 relative">
-                                    <input type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
+                                    <input v-model="userData.lastname" type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
                                     <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Lastname</label>
                                 </div>
                                 <div class="w-11/12 relative">
-                                    <textarea id="message" rows="3" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer"></textarea>
+                                    <textarea v-model="userData.bio" id="message" rows="3" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer"></textarea>
                                     <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Biography</label>
                                 </div>
                                 <div class="w-11/12 relative">
-                                    <input type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
+                                    <input v-model="userData.email" type="email" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-lg text-gray-900 bg-transparent rounded-md border-[1px] border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-500 focus:outline-none focus:ring-0 focus:border-sky-600 peer" placeholder=" " />
                                     <label for="floating_outlined" class="absolute text-md text-gray-900 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-sky-600 peer-focus:dark:text-sky-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Email</label>
                                 </div>
                                 <div class="w-11/12 relative">
@@ -137,9 +153,7 @@ onMounted(async()=>{
                 <p class="text-gray-600">{{ `@${userData.email?.split('@')[0]}` }}</p>
             </div>
             <div class="bio leading-5 mt-3 text-[15px] text-gray-800">
-                <p>Summer after high school when we first met
-                    We'd make out in your Mustang to Radiohead
-                    And on my 18th birthday we got matching tattoos.
+                <p>{{ userData.bio }}
                 </p>
             </div>
             <div class="flex space-x-6">

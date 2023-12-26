@@ -36,6 +36,10 @@ const useUser = () => {
         }
     } 
     
+    const updateProfile = async(userId) => {
+        console.log(userData.value);
+    }
+
     const logOut = async() => {
         try{
             localStorage.removeItem("token");
@@ -60,6 +64,7 @@ const useUser = () => {
         logOut,
         getUser,
         userData,
+        updateProfile,
         errors,     
         errorsMessage, 
         successMessage,
