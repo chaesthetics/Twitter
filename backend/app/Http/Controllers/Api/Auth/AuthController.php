@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\EditProfileRequest;
 use App\Http\Requests\Auth\SigninRequest;
 use App\Http\Requests\Auth\SignupRequest;
 use App\Http\Resources\Auth\AuthResource;
@@ -72,5 +73,56 @@ class AuthController extends Controller
                 'message' => $th->getMessage(),
             ], 500);
         }  
+    }
+
+    public function editProfile(EditProfileRequest $request, $userId)
+    {
+        try{
+            // dd($userId);  
+            $user = User::find($userId);
+
+            if($request->avatar&&$request->cover){
+                $user->update([
+                    "firstname" => $request->firstname,
+                    "lastname" => $request->lastname,
+                    "email" => $request->email,
+                    "bio" => $request->bio,
+                    "avatar" => $request->avatar,
+                    "cover" => $request->cover
+                ]);
+            }else if($request->avatar){
+                $user->update([
+                    "firstname" => $request->firstname,
+                    "lastname" => $request->lastname,
+                    "email" => $request->email,
+                    "bio" => $request->bio,
+                    "avatar" => $request->avatar,
+                ]);
+            }else if($request->cover){
+                $user->update([
+                    "firstname" => $request->firstname,
+                    "lastname" => $request->lastname,
+                    "email" => $request->email,
+                    "bio" => $request->bio,
+                    "cover" => $request->cover,
+                ]);
+            }else{
+                $user->update([
+                    "firstname" => $request->firstname,
+                    "lastname" => $request->lastname,
+                    "email" => $request->email,
+                    "bio" => $request->bio,
+                ]);
+            }
+            return response()->json([
+                'status' => true,
+                'message' => 'Updated successfully'
+            ], 200);
+        }catch(\Throwable $th){
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
     }
 }
