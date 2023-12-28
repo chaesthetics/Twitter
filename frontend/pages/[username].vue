@@ -6,19 +6,37 @@ import { initFlowbite } from 'flowbite'
 
 const { logOut, getUser, userData, updateProfile } = useUser();
 
+const user = ref({
+    firstname: "",
+    lastname: "",
+    email: "",
+    bio: "",
+    avatar: "",
+    cover: ""
+})
+
+const updateToastSuccess = ref("");
+
 onMounted(async()=>{
     if(!localStorage.getItem("token")){
         navigateTo('/');
     }
     initFlowbite();
-    await getUser();
+    await getUser().then(()=>{
+        user.value.firstname = userData.value.firstname;
+        user.value.lastname = userData.value.lastname;
+        user.value.email = userData.value.email;
+        user.value.bio = userData.value.bio;
+        user.value.avatar = userData.value.avatar;
+        user.value.cover = userData.value.cover;
+    })
 });
 
 const convertToBase64 = async (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
+    reader.onrror = (error) => reject(error);
     reader.readAsDataURL(file);
   });
 };
@@ -48,12 +66,43 @@ const coverPicHandler = async(event) => {
             console.error("Error in converting image to base64", err);
         }
     }
-    
+}
+
+const saveClickHandler = async(userId) => {
+    await updateProfile(userId).then(()=>{
+        document.getElementById('closeModal').click();
+        updateToastSuccess.value = JSON.parse(localStorage.getItem("updateProfileSuccess"));
+        localStorage.removeItem("updateProfileSuccess");
+        user.value.firstname = userData.value.firstname;
+        user.value.lastname = userData.value.lastname;
+        user.value.email = userData.value.email;
+        user.value.bio = userData.value.bio;
+        user.value.avatar = userData.value.avatar;
+        user.value.cover = userData.value.cover;
+    }).then(()=>{
+        setTimeout((()=>{
+            updateToastSuccess.value = "";
+        }), 6000);
+    });  
 }
 
 </script>
 <template>
 <div>
+    <div v-if="updateToastSuccess" class="absolute left-10 top-10 space-x-1 animate-bounce bg-green-50 z-10">
+        <div id="toast-success" class="flex items-center max-w-xs px-7 py-2 text-gray-500  border-t-4 border-green-400 rounded-md shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+        <div>
+            <span class="text-md font-bold text-green-500 text-green-800">Success</span>
+            <div class="text-xs text-green-600 font-normal duration-300">{{ updateToastSuccess }}</div>
+        </div>
+        <button type="button" class="ms-auto -mx-2.5 -my-1.5 text-green-800 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-warning" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+            </svg>
+        </button>
+        </div>
+    </div>
     <div class="navbar flex space-x-4 items-center sticky top-0 backdrop-blur-sm bg-white bg-opacity-80">
         <div class="p-2">
             <NuxtLink to="/home" class="w-10 h-10 py-0 z-20 rounded-full hover:bg-gray-300 flex items-center justify-center duration-300">
@@ -62,7 +111,7 @@ const coverPicHandler = async(event) => {
         </div>
         <div class="flex flex-col justify-between">
             <div class="flex space-x-1 items-center">
-                <p class="font-bold text-xl">{{ userData.firstname }}</p>
+                <p class="font-bold text-xl">{{ user.firstname }}</p>
                 <img class="h-5 w-5" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADP0lEQVR4nO2az08TQRTHN+hR/QNM9ODVqAcvBk3ovBZ/HMATEcXon2CigvFUj+AN8aAJmEjnlYSTnk3UgzcjnozExKghUVQOwr63tQqseWyBWrtlpu2sVHnJO3R3uvP5zryZNzuznrdl/7ApTVdB+1e8VjSVD84qpCXQtJzO0UWvlUzlfVCavgNyGDn9SCGd8DaDZe4HexXSW0AaTqOf6XgSbi+/r5APA/LCOnzkCok7cnykvGw2G7ZJeYV8QyG/Oj4R7HEuADDo/R2MPwPyWErz6Yz2DyjNs5Xwa2U1z0oZKSv/UdF/y8oEvc4FKKTbcYCNutI04lwAIL90J4CnnMK3j37dqTQtOuyBxZO5uV3OBEDe73QFDyWXicFJy0fw9MC1AJA68n6n1Fk3cCbPuwG5SyEPAtIzpanoHpz/CCeZWgH5rkK6oPL+fmMBgDydNDBs5JpfGwtQyENJA55/WKjdI8iDxgJSOjiaJPzlR4Xw3bel8M5UMV7ARNBuLEBSPGj+lCT8zELk1URIxu6ZDLd5Niap3jV8/+NC+L4MXlx+91WEk0Ie9WxN5bg7yZafKcGLqCrlu6wFyKLLFfxATMv3V4cPhcWu9WWJW2NVmSQ8lFaxwmT+MoI8v1ngYW0cEIGmUzXh0+j32WTdjeZukwHbbwC/3hNUVNo/VxUekC+tvMMaPmzkedEYoJGWh0rXtAxI1xoSIPCmIE2FxxoCTENI5mhToGbDq1ohZDOIq83hH+aXwutPC+7g0WAQ20yjtUQ0v+XZfBq1SWRxM0u1awP1xjzWkcjESlsfGz68Wk80bcBiqQdy3G0tADTfM60gTkQz4CHyMSv4lR0zy6VEpYgmwofWy+kMBsfqqWhVRDPhoeTykmUTPjfrrUgGayMDFuJ7YailX+qVpjctva2SxsI+77/Z2Ioz2fZzLSCV89OeK+uYDHeApp8uw6bdRcuXm2yBOxOA/MIpfCSARpyFkKZbf+OIaQ6QxwGDHjVOh2puiGn+Ann/YDSWaBiQP5bfT+vgjHMBchAneUISi2RHWXaYHPLJtcolcTYbtskzSnux04kc8pkYaF9t2mNWm1Br2YPuVZPPDFr2U4Mt88zsF/L7hiBlV3/sAAAAAElFTkSuQmCC">
             </div>
             <p class="text-xs text-gray-700">7,011 tweets</p>
@@ -70,20 +119,18 @@ const coverPicHandler = async(event) => {
     </div>
 <div class="profile">
         <div class="cover w-full hover:cursor-pointer">
-            <!-- <img src="~/assets/images/default.png" class=""/> -->
-            <div class="h-[140px] md:h-[200px] w-full bg-sky-400">
-
-            </div>
+            <div v-if="!user.cover" class="h-[140px] md:h-[200px] w-full bg-sky-400"></div>
+            <img v-else :src="user.cover" class=""/>
         </div>
         <div class="information py-2 px-5">
             <div class="grid grid-cols-7">
                 <div class="col-span-2 profilepic h-5 hover:cursor-pointer">
-                    <div v-if="!userData.avatar" 
+                    <div v-if="!user.avatar" 
                         class="w-28 h-28 md:w-36 md:h-36 bg-stone-700 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[86px] justify-center">
                         <p class="text-white mb-2 md:mb-3 font-bold text-3xl md:text-5xl">{{ `${userData.firstname?.split("")[0] ? userData.firstname?.split("")[0] : "" }${userData.lastname?.split("")[0] ? userData.lastname?.split("")[0] : ""}`}}</p>
                     </div>
-                    <img v-else src="~/assets/images/profile.jpg" 
-                    class="rounded-full border border-white border-t-[4px] border-l-[3px] border-r-[3px] h-auto max-h-[140px] w-auto -mt-16 md:-mt-[86px] object-contain"/>
+                    <img v-else :src="user.avatar" 
+                    class="rounded-full border border-white border-t-[4px] border-l-[3px] border-r-[3px] object-cover h-[110px] w-[110px] md:h-[140px]  md:w-[140px] -mt-16 md:-mt-[86px] object-contain"/>
                 </div>
                 <div class="flex space-x-2 col-span-5 justify-end">
                     <!-- <button class="w-9 h-9 py-0 rounded-full hover:bg-gray-300 border border-gray-200 flex items-center justify-center duration-300">
@@ -96,7 +143,7 @@ const coverPicHandler = async(event) => {
                         Follow
                     </button>    -->
                     <button class="border text-[15px] border-1 px-4 py-[5.5px] hover:bg-gray-200 duration-300 transition-300 animation-300  rounded-full font-bold"
-                       data-modal-target="edit-profile-modal" data-modal-toggle="edit-profile-modal" type="button">Edit Profile</button>
+                       id="closeModal" data-modal-target="edit-profile-modal" data-modal-toggle="edit-profile-modal" type="button">Edit Profile</button>
                 </div> 
             </div>
 
@@ -114,32 +161,50 @@ const coverPicHandler = async(event) => {
                             </button>
                             <p class="text-lg font-bold text-gray-900">Edit Profile</p>
                             </div>
-                            <button @click.prevent="updateProfile(userData.id)" class="bg-gray-900 hover:bg-gray-800 px-4 rounded-full py-[5.5px] text-white text-sm font-bold" type="submit">Save</button>
+                            <button @click.prevent="saveClickHandler(userData.id)" class="bg-gray-900 hover:bg-gray-800 px-4 rounded-full py-[5.5px] text-white text-sm font-bold" type="submit">Save</button>
                         </div>
                         <!-- Modal body -->
                         <div class="space-y-4 md:h-[520px]">
                             <div class="relative">
                                 <div class="relative px-[2px]">
                                     <!-- <img src="~/assets/images/default.png" class="brightness-50"/> -->
-                                    <div class="h-[162px] md:h-[183px] bg-sky-400 w-full brightness-50"></div>
-                                    <div class="absolute top-[55px] left-[180px] md:top-[70px] md:left-[220px]">
-                                        <div class="flex space-x-4">
-                                            <div class="relative group">
-                                                <button class="w-12 h-12 py-0 z-20 rounded-full bg-black bg-opacity-80 cursor-pointer group-hover:bg-opacity-60 flex items-center justify-center duration-300">
-                                                    <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="white" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c" style="color: rgb(255, 255, 255);"><g><path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"></path></g></svg>
+                                    <div v-if="!userData.cover" class="h-[162px] md:h-[183px] bg-sky-400 w-full brightness-50">
+                                        <div class="absolute h-full w-full ">
+                                            <div class="flex space-x-4 items-center justify-center h-full">
+                                                <div class="relative group">
+                                                    <button class="w-12 h-12 py-0 z-20 rounded-full bg-black bg-opacity-80 cursor-pointer group-hover:bg-opacity-60 flex items-center justify-center duration-300">
+                                                        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="white" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c" style="color: rgb(255, 255, 255);"><g><path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"></path></g></svg>
+                                                    </button>
+                                                    <input @change="coverPicHandler" class="absolute top-0 h-[50px] text-5xl left-0 w-12 opacity-0 cursor-pointer" type="file"/>
+                                                </div>
+                                                <button class="cursor-default w-12 h-12 py-0 z-20 rounded-full bg-black bg-opacity-80 hover:bg-opacity-60 flex items-center justify-center duration-300">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
                                                 </button>
-                                                <input @change="coverPicHandler" class="absolute top-0 h-[50px] text-5xl left-0 w-12 opacity-0 cursor-pointer" type="file"/>
                                             </div>
-                                            <button class="cursor-default w-12 h-12 py-0 z-20 rounded-full bg-black bg-opacity-80 hover:bg-opacity-60 flex items-center justify-center duration-300">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
-                                            </button>
+                                        </div>
+                                    </div>
+                                    <div v-else class="relative w-full brightness-50">
+                                        <img :src="userData.cover" class=""/>
+                                        <div class="absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                                            <div class="flex space-x-4">
+                                                <div class="relative group">
+                                                    <button class="w-12 h-12 py-0 z-20 rounded-full bg-black bg-opacity-80 cursor-pointer group-hover:bg-opacity-60 flex items-center justify-center duration-300">
+                                                        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="white" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c" style="color: rgb(255, 255, 255);"><g><path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"></path></g></svg>
+                                                    </button>
+                                                    <input @change="coverPicHandler" class="absolute top-0 h-[50px] text-5xl left-0 w-12 opacity-0 cursor-pointer" type="file"/>
+                                                </div>
+                                                <button class="cursor-default w-12 h-12 py-0 z-20 rounded-full bg-black bg-opacity-80 hover:bg-opacity-60 flex items-center justify-center duration-300">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                              </div>
                              <div class="relative profilepic h-5 ml-[10px] z-20 group">
-                                <div class="absolute brightness-50 z-20 items-center w-28 h-28 md:w-32 md:h-32 bg-stone-700 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[70px]">
+                                <div v-if="!userData.avatar" class="absolute brightness-50 z-20 items-center w-28 h-28 md:w-32 md:h-32 bg-stone-700 rounded-full flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[70px]">
                                         <p class="text-white mb-2 md:mb-2 font-bold text-3xl ml-auto mr-auto md:text-4xl">{{ `${userData.firstname?.split("")[0] ? userData.firstname?.split("")[0] : ""}${userData.lastname?.split("")[0] ? userData.lastname?.split("")[0] : ""}` }}</p>
                                 </div>
+                                <img v-else :src="userData.avatar" class="absolute brightness-50 z-20 items-center w-28 h-28 md:w-32 md:h-32 rounded-full object-cover flex border border-white border-t-[4px] border-l-[3px] border-r-[3px] items-center -mt-16 md:-mt-[70px]"/>
                                 <button class="absolute top-[-27px] md:top-[-25px] left-[32px] md:left-[40px] w-12 h-12 py-0 z-20 group-hover:bg-opacity-60 rounded-full bg-black bg-opacity-80 cursor-pointer group-hover:bg-opacity-60 flex items-center justify-center duration-300">
                                     <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="white" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-18yzcnr r-yc9v9c" style="color: rgb(255, 255, 255);"><g><path d="M9.697 3H11v2h-.697l-3 2H5c-.276 0-.5.224-.5.5v11c0 .276.224.5.5.5h14c.276 0 .5-.224.5-.5V10h2v8.5c0 1.381-1.119 2.5-2.5 2.5H5c-1.381 0-2.5-1.119-2.5-2.5v-11C2.5 6.119 3.619 5 5 5h1.697l3-2zM12 10.5c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-4 2c0-2.209 1.791-4 4-4s4 1.791 4 4-1.791 4-4 4-4-1.791-4-4zM17 2c0 1.657-1.343 3-3 3v1c1.657 0 3 1.343 3 3h1c0-1.657 1.343-3 3-3V5c-1.657 0-3-1.343-3-3h-1z"></path></g></svg>
                                 </button>
@@ -175,14 +240,14 @@ const coverPicHandler = async(event) => {
             </div>
 
             <div class="flex mt-6 md:mt-8 items-center space-x-1">
-                <p class="text-black font-bold text-xl">{{ userData.firstname }}</p>
+                <p class="text-black font-bold text-xl">{{ user.firstname }}</p>
                  <img class="h-5 w-5 mt-1" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADP0lEQVR4nO2az08TQRTHN+hR/QNM9ODVqAcvBk3ovBZ/HMATEcXon2CigvFUj+AN8aAJmEjnlYSTnk3UgzcjnozExKghUVQOwr63tQqseWyBWrtlpu2sVHnJO3R3uvP5zryZNzuznrdl/7ApTVdB+1e8VjSVD84qpCXQtJzO0UWvlUzlfVCavgNyGDn9SCGd8DaDZe4HexXSW0AaTqOf6XgSbi+/r5APA/LCOnzkCok7cnykvGw2G7ZJeYV8QyG/Oj4R7HEuADDo/R2MPwPyWErz6Yz2DyjNs5Xwa2U1z0oZKSv/UdF/y8oEvc4FKKTbcYCNutI04lwAIL90J4CnnMK3j37dqTQtOuyBxZO5uV3OBEDe73QFDyWXicFJy0fw9MC1AJA68n6n1Fk3cCbPuwG5SyEPAtIzpanoHpz/CCeZWgH5rkK6oPL+fmMBgDydNDBs5JpfGwtQyENJA55/WKjdI8iDxgJSOjiaJPzlR4Xw3bel8M5UMV7ARNBuLEBSPGj+lCT8zELk1URIxu6ZDLd5Niap3jV8/+NC+L4MXlx+91WEk0Ie9WxN5bg7yZafKcGLqCrlu6wFyKLLFfxATMv3V4cPhcWu9WWJW2NVmSQ8lFaxwmT+MoI8v1ngYW0cEIGmUzXh0+j32WTdjeZukwHbbwC/3hNUVNo/VxUekC+tvMMaPmzkedEYoJGWh0rXtAxI1xoSIPCmIE2FxxoCTENI5mhToGbDq1ohZDOIq83hH+aXwutPC+7g0WAQ20yjtUQ0v+XZfBq1SWRxM0u1awP1xjzWkcjESlsfGz68Wk80bcBiqQdy3G0tADTfM60gTkQz4CHyMSv4lR0zy6VEpYgmwofWy+kMBsfqqWhVRDPhoeTykmUTPjfrrUgGayMDFuJ7YailX+qVpjctva2SxsI+77/Z2Ioz2fZzLSCV89OeK+uYDHeApp8uw6bdRcuXm2yBOxOA/MIpfCSARpyFkKZbf+OIaQ6QxwGDHjVOh2puiGn+Ann/YDSWaBiQP5bfT+vgjHMBchAneUISi2RHWXaYHPLJtcolcTYbtskzSnux04kc8pkYaF9t2mNWm1Br2YPuVZPPDFr2U4Mt88zsF/L7hiBlV3/sAAAAAElFTkSuQmCC">
             </div>
             <div>
-                <p class="text-gray-600">{{ `@${userData.email?.split('@')[0]}` }}</p>
+                <p class="text-gray-600">{{ `@${user.email?.split('@')[0]}` }}</p>
             </div>
             <div class="bio leading-5 mt-3 text-[15px] text-gray-800">
-                <p>{{ userData.bio }}
+                <p>{{ user.bio }}
                 </p>
             </div>
             <div class="flex space-x-6">

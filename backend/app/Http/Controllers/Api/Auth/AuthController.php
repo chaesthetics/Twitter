@@ -74,7 +74,6 @@ class AuthController extends Controller
             ], 500);
         }  
     }
-
     public function editProfile(EditProfileRequest $request, $userId)
     {
         try{
@@ -124,5 +123,11 @@ class AuthController extends Controller
                 'message' => $th->getMessage(),
             ], 500);
         }
+    }
+
+    public function getUserData($userId)
+    {
+        $user = User::find($userId);
+        return response()->json($user);
     }
 }
