@@ -9,6 +9,7 @@ const useUser = () => {
     const userData = ref({});
     const errorsMessage = ref({});
     const successMessage = ref('');
+    const isUpdate = ref(false);
 
     const baseURL = 'http://127.0.0.1:8000/api';
     
@@ -36,6 +37,23 @@ const useUser = () => {
         }
     } 
     
+    const updateProfile = async(userId) => {
+        try{
+            const response1 = await axios.put(`${baseURL}/editProfile/${userId}`, userData.value);
+            const response = await updateUserData(userId);
+            userData.value = response.data;
+            localStorage.setItem("updateProfileSuccess", JSON.stringify(response1.data.message));
+            localStorage.setItem("user", JSON.stringify(response.data));
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    const updateUserData = async(userId) => {
+        const response = await axios.get(`${baseURL}/getUserData/${userId}`);
+        return response;
+    }
+
     const logOut = async() => {
         try{
             localStorage.removeItem("token");
@@ -60,6 +78,8 @@ const useUser = () => {
         logOut,
         getUser,
         userData,
+        updateProfile,
+        isUpdate,
         errors,     
         errorsMessage, 
         successMessage,

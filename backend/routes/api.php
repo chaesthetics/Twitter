@@ -22,6 +22,8 @@ use App\Http\Controllers\Api\Auth\AuthController;
 Route::controller(AuthController::class)->group(function(){
     Route::post('/signup', 'signup');
     Route::post('/login', 'login');
+    Route::put('/editProfile/{userId}', 'editProfile');
+    Route::get('getUserData/{userId}', 'getUserData');
 });
 
 Route::controller(PostController::class)->group(function(){
