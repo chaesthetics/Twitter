@@ -120,7 +120,7 @@ const saveClickHandler = async(userId) => {
 <div class="profile">
         <div class="cover w-full hover:cursor-pointer">
             <div v-if="!user.cover" class="h-[140px] md:h-[200px] w-full bg-sky-400"></div>
-            <img v-else :src="user.cover" class=""/>
+            <img v-else :src="user.cover" class="max-h-[140px] md:max-h-[200px] w-full object-cover"/>
         </div>
         <div class="information py-2 px-5">
             <div class="grid grid-cols-7">
@@ -184,7 +184,7 @@ const saveClickHandler = async(userId) => {
                                         </div>
                                     </div>
                                     <div v-else class="relative w-full brightness-50">
-                                        <img :src="userData.cover" class=""/>
+                                        <img :src="userData.cover" class="max-h-[162px] md:max-h-[183px] object-cover w-full"/>
                                         <div class="absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                                             <div class="flex space-x-4">
                                                 <div class="relative group">

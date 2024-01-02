@@ -121,7 +121,7 @@ const handlePost = async() => {
     <div v-if="!tweet.user.avatar" class="flex items-center justify-center h-[42px] w-[48px] md:w-[46px] mt-1 bg-stone-700 rounded-full">
         <p class="text-white font-bold mb-[1px] text-sm">{{ `${tweet.user.firstname.split("")[0]}${tweet.user.lastname.split("")[0]}`}}</p>
     </div>
-    <img v-else :src="tweet.user.avatar" class="rounded-full h-[42px] w-[42px] object-cover"/>
+    <img v-else :src="tweet.user.avatar" class="rounded-full w-[42px] h-[42px] md:w-[42px] md:h-[42px] object-cover"/>
     <div class="pl-3 w-full">
         <div class="flex justify-between w-full">
             <div class="userinfo flex space-x-1">
