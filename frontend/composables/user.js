@@ -10,6 +10,7 @@ const useUser = () => {
     const errorsMessage = ref({});
     const successMessage = ref('');
     const isUpdate = ref(false);
+    const userTweets = ref({});
 
     const baseURL = 'http://127.0.0.1:8000/api';
     
@@ -71,6 +72,15 @@ const useUser = () => {
             console.log(err);
         }
     }
+
+    const fetchUserTweets = async(userId) =>{
+        try{
+            const response = await axios.get(`${baseURL}/getUserData/${userId}`);
+            userTweets.value = response.data.posts;
+        }catch(err){
+            console.log(err);
+        }
+    }
     
     return{
         signUp,
@@ -79,6 +89,8 @@ const useUser = () => {
         getUser,
         userData,
         updateProfile,
+        fetchUserTweets,
+        userTweets,
         isUpdate,
         errors,     
         errorsMessage, 

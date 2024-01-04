@@ -48,7 +48,7 @@ class AuthController extends Controller
 
                 $user = User::where('email', $request->email)->first();
                 $token = $user->createToken('myToken')->plainTextToken;
-
+                
                 return AuthResource::make([
                     'token' => $token,
                     'user' => [
@@ -59,7 +59,7 @@ class AuthController extends Controller
                         'bio' => $user->bio,
                         'avatar' => $user->avatar,
                         'cover' => $user->cover,
-                    ]
+                    ],
                 ]);
             }else{
                 return response()->json([
@@ -128,6 +128,7 @@ class AuthController extends Controller
     public function getUserData($userId)
     {
         $user = User::find($userId);
+        $user->posts;
         return response()->json($user);
     }
 }
