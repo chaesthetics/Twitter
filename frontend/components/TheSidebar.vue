@@ -4,7 +4,7 @@ import { useRouter } from "vue-router"
 import { initFlowbite } from 'flowbite';
 import useUser from "../composables/user";
 
-const { logOut, getUser, userData } = useUser();
+const { logOut, getUser, userData, isUpdate } = useUser();
 
 const router = useRouter();
 
@@ -12,6 +12,10 @@ onMounted( async()=> {
     initFlowbite();
     await getUser();
 });
+
+if(isUpdate){
+    console.log("Nag update");
+}
 
 </script>
 <template>
@@ -89,10 +93,10 @@ onMounted( async()=> {
     <button data-tooltip-target="tooltip-top" data-tooltip-placement="top"  data-tooltip-trigger="click" type="button" class="pr-2 side-items ml-0 md:ml-10 pb-3">
         <div class="text-white font-bold py-2 px-0 justify-center md:px-2.5 ml-1 w-full rounded-full flex md:justify-between items-center hover:bg-gray-300 duration-300">
             <div class="flex space-x-0 md:space-x-2 flex items-center cursor-pointer w-10 md:w-auto">
-                <div v-if="!userData.avatar" class="flex items-center justify-center fixed md:static h-[44px] w-[44px] md:w-44px bg-teal-950 ml-[6px] md:ml-0 rounded-full">
+                <div v-if="!userData.avatar" class="flex items-center justify-center fixed md:static h-[44px] w-[44px] md:w-44px bg-stone-700 ml-[6px] md:ml-0 rounded-full">
                     <p class="text-white font-bold w-[50px] mb-[1px] text-sm w-full">{{ `${userData.firstname?.split("")[0]}${userData.lastname?.split("")[0]}`}}</p>
                 </div>
-                <img v-else src="~/assets/images/profile.jpg" class="fixed ml-[6px] md:ml-0 md:static rounded-full h-[45px]"/>
+                <img v-else :src="userData.avatar" class="fixed ml-[6px] md:ml-0 md:static rounded-full object-cover w-[45px] h-[45px]"/>
                 <div class="collapse md:visible">
                     <p class="text-black font-bold leading-4 text-left">{{ userData.firstname }}</p>
                     <p class="leading-4 font-normal text-xs text-gray-600">{{ userData.email }}</p>

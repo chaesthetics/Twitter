@@ -41,7 +41,7 @@ const handlePost = async() => {
 </script>
 <template>
 <div class="divide-y-[1px]">
-       <div v-if="logInToastSuccess!==''" class="absolute left-10 top-10 space-x-1 animate-bounce bg-sky-50 z-10">
+    <div v-if="logInToastSuccess!==''" class="absolute left-10 top-10 space-x-1 animate-bounce bg-sky-50 z-10">
         <div id="toast-success" class="flex items-center max-w-xs px-7 py-2 text-gray-500  border-t-4 border-sky-400 rounded-md shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
         <div>
             <span class="text-md font-bold text-sky-500 text-sky-800">Success</span>
@@ -70,10 +70,10 @@ const handlePost = async() => {
     </div>
 </div>
 <div class="card flex px-4 py-3 mt-[-1px]">
-    <div v-if="!userData.avatar" class="flex items-center justify-center h-[42px] w-[42px] md:w-[46px] bg-teal-950 rounded-full">
+    <div v-if="!userData.avatar" class="flex items-center justify-center h-[42px] w-[42px] md:w-[46px] bg-stone-700 rounded-full">
         <p class="text-white font-bold mb-[1px] text-sm">{{ `${userData.firstname?.split("")[0]}${userData.lastname?.split("")[0]}`}}</p>
     </div>
-    <img v-else src="~/assets/images/profile.jpg" class="rounded-full h-[42px]"/>
+    <img v-else :src="userData.avatar" class="rounded-full h-[42px] w-[42px] object-cover"/>
     <div class="pl-3 w-5/6 md:w-full">
         <form class="" @click.prevent="handlePost">
             <div>
@@ -118,13 +118,13 @@ const handlePost = async() => {
 </div>    
 
 <div v-for="(tweet, index) in tweets" :key="index" class="hover:cursor-pointer card flex px-4 py-3 hover:bg-gray-100 duration-200 transition-200">
-    <div v-if="!tweet.user.avatar" class="flex items-center justify-center h-[42px] w-[48px] md:w-[46px] mt-1 bg-teal-950 rounded-full">
+    <div v-if="!tweet.user.avatar" class="flex items-center justify-center h-[42px] w-[48px] md:w-[46px] mt-1 bg-stone-700 rounded-full">
         <p class="text-white font-bold mb-[1px] text-sm">{{ `${tweet.user.firstname.split("")[0]}${tweet.user.lastname.split("")[0]}`}}</p>
     </div>
-    <img v-else src="~/assets/images/profile.jpg" class="rounded-full h-[42px]"/>
+    <img v-else :src="tweet.user.avatar" class="rounded-full w-[42px] h-[42px] md:w-[42px] md:h-[42px] object-cover"/>
     <div class="pl-3 w-full">
         <div class="flex justify-between w-full">
-            <div class="userinfo flex space-x-1">
+            <div class="userinfo flex space-x-1">   
                 <div class="flex space-x-1 items-center">
                     <p class="font-semibold text-black">{{ tweet.user.firstname }}</p>
                     <img class="h-5 w-5 mt-1" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADP0lEQVR4nO2az08TQRTHN+hR/QNM9ODVqAcvBk3ovBZ/HMATEcXon2CigvFUj+AN8aAJmEjnlYSTnk3UgzcjnozExKghUVQOwr63tQqseWyBWrtlpu2sVHnJO3R3uvP5zryZNzuznrdl/7ApTVdB+1e8VjSVD84qpCXQtJzO0UWvlUzlfVCavgNyGDn9SCGd8DaDZe4HexXSW0AaTqOf6XgSbi+/r5APA/LCOnzkCok7cnykvGw2G7ZJeYV8QyG/Oj4R7HEuADDo/R2MPwPyWErz6Yz2DyjNs5Xwa2U1z0oZKSv/UdF/y8oEvc4FKKTbcYCNutI04lwAIL90J4CnnMK3j37dqTQtOuyBxZO5uV3OBEDe73QFDyWXicFJy0fw9MC1AJA68n6n1Fk3cCbPuwG5SyEPAtIzpanoHpz/CCeZWgH5rkK6oPL+fmMBgDydNDBs5JpfGwtQyENJA55/WKjdI8iDxgJSOjiaJPzlR4Xw3bel8M5UMV7ARNBuLEBSPGj+lCT8zELk1URIxu6ZDLd5Niap3jV8/+NC+L4MXlx+91WEk0Ie9WxN5bg7yZafKcGLqCrlu6wFyKLLFfxATMv3V4cPhcWu9WWJW2NVmSQ8lFaxwmT+MoI8v1ngYW0cEIGmUzXh0+j32WTdjeZukwHbbwC/3hNUVNo/VxUekC+tvMMaPmzkedEYoJGWh0rXtAxI1xoSIPCmIE2FxxoCTENI5mhToGbDq1ohZDOIq83hH+aXwutPC+7g0WAQ20yjtUQ0v+XZfBq1SWRxM0u1awP1xjzWkcjESlsfGz68Wk80bcBiqQdy3G0tADTfM60gTkQz4CHyMSv4lR0zy6VEpYgmwofWy+kMBsfqqWhVRDPhoeTykmUTPjfrrUgGayMDFuJ7YailX+qVpjctva2SxsI+77/Z2Ioz2fZzLSCV89OeK+uYDHeApp8uw6bdRcuXm2yBOxOA/MIpfCSARpyFkKZbf+OIaQ6QxwGDHjVOh2puiGn+Ann/YDSWaBiQP5bfT+vgjHMBchAneUISi2RHWXaYHPLJtcolcTYbtskzSnux04kc8pkYaF9t2mNWm1Br2YPuVZPPDFr2U4Mt88zsF/L7hiBlV3/sAAAAAElFTkSuQmCC">
