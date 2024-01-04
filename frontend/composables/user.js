@@ -9,7 +9,6 @@ const useUser = () => {
     const userData = ref({});
     const errorsMessage = ref({});
     const successMessage = ref('');
-    const isUpdate = ref(false);
     const userTweets = ref({});
 
     const baseURL = 'http://127.0.0.1:8000/api';
@@ -91,7 +90,6 @@ const useUser = () => {
         updateProfile,
         fetchUserTweets,
         userTweets,
-        isUpdate,
         errors,     
         errorsMessage, 
         successMessage,
