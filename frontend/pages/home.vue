@@ -38,7 +38,30 @@ const handlePost = async() => {
     });
 }
 
+const convertToBase64 = async (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onrror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+};
+
+const tweetFileHandler = async(event) => {
+    const selectedFile = event.target.files[0];
+    // console.log("image upload:", selectedFile);
+    if(selectedFile){
+        try{
+            const base64Tweet = await convertToBase64(selectedFile);
+            postForm.image = base64Tweet;
+        }catch(err){
+            console.log(err);
+        }
+    }
+}
+
 </script>
+
 <template>
 <div class="divide-y-[1px]">
     <div v-if="logInToastSuccess!==''" class="absolute left-10 top-10 space-x-1 animate-bounce bg-sky-50 z-10">
@@ -55,7 +78,7 @@ const handlePost = async() => {
         </button>
         </div>
     </div>
-<div class="navbar flex justify-between items-center sticky top-0 backdrop-blur-sm border-b-[1px] border-gray-200 bg-white bg-opacity-80">
+<div class="navbar flex justify-between items-center sticky top-0 backdrop-blur-sm border-b-[1px] border-gray-200 bg-white bg-opacity-80 z-40">
     <div class="flex justify-around w-full font-semibold text-center hover:cursor-pointer">
         <div class="relative w-full py-4 hover:bg-gray-200 duration-300 flex-col h-full">
             <p class="h-full border-b-3 mb-auto">For you</p>
@@ -75,11 +98,12 @@ const handlePost = async() => {
     </div>
     <img v-else :src="userData.avatar" class="rounded-full h-[42px] w-[42px] object-cover"/>
     <div class="pl-3 w-5/6 md:w-full">
-        <form class="" @click.prevent="handlePost">
+        <form class="" >
             <div>
                 <div class="content pt-2">
                     <textarea v-model="postForm.text" rows="1" placeholder="What's on your mind?!" class="outline text-gray-700 text-lg outline-none w-full overflow-hidden resize-y h-auto outline-none border-none focus:outline-none focus:ring-0 focus:ring-offset-0"></textarea>
                 </div>
+                <img :src="postForm.image"/>
                 <button class="mt-2 flex ml-[-10px] space-x-1 px-2 py-1 hover:bg-sky-100 w-auto rounded-full duration-300 transition-300"> 
                     <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1d4mawv r-10ptun7 r-1janqcz" style="rgb(14 165 233);"><g><path fill="rgb(2 132 199)" d="M12 1.75C6.34 1.75 1.75 6.34 1.75 12S6.34 22.25 12 22.25 22.25 17.66 22.25 12 17.66 1.75 12 1.75zm-.25 10.48L10.5 17.5l-2-1.5v-3.5L7.5 9 5.03 7.59c1.42-2.24 3.89-3.75 6.72-3.84L11 6l-2 .5L8.5 9l5 1.5-1.75 1.73zM17 14v-3l-1.5-3 2.88-1.23c1.17 1.42 1.87 3.24 1.87 5.23 0 1.3-.3 2.52-.83 3.61L17 14z"></path></g></svg>
                     <p class="font-bold text-sm text-sky-500">Everyone can reply</p>
@@ -89,8 +113,9 @@ const handlePost = async() => {
             <div class="interactions pt-2">
                 <div class="common flex justify-between w-full items-center">
                     <div class="flex space-x-3">
-                        <div class="hover:cursor-pointer w-8 h-8 rounded-full flex justify-center items-center hover:bg-sky-100 duration-300 transition-300">
+                        <div class="hover:cursor-pointer w-8 h-8 rounded-full flex justify-center items-center hover:bg-blue-100 duration-300 transition-300">
                             <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(29, 155, 240);"><g><path fill="rgb(29, 155, 240)" d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"></path></g></svg>
+                            <input type="file" class="absolute w-[20px] opacity-0 hover:cursor-pointer" @change="tweetFileHandler">
                         </div>
                         <div class="hover:cursor-pointer w-8 h-8 rounded-full flex justify-center items-center hover:bg-sky-100 duration-300 transition-300">
                             <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(29, 155, 240);"><g><path fill="rgb(29, 155, 240)" d="M3 5.5C3 4.119 4.12 3 5.5 3h13C19.88 3 21 4.119 21 5.5v13c0 1.381-1.12 2.5-2.5 2.5h-13C4.12 21 3 19.881 3 18.5v-13zM5.5 5c-.28 0-.5.224-.5.5v13c0 .276.22.5.5.5h13c.28 0 .5-.224.5-.5v-13c0-.276-.22-.5-.5-.5h-13zM18 10.711V9.25h-3.74v5.5h1.44v-1.719h1.7V11.57h-1.7v-.859H18zM11.79 9.25h1.44v5.5h-1.44v-5.5zm-3.07 1.375c.34 0 .77.172 1.02.43l1.03-.86c-.51-.601-1.28-.945-2.05-.945C7.19 9.25 6 10.453 6 12s1.19 2.75 2.72 2.75c.85 0 1.54-.344 2.05-.945v-2.149H8.38v1.032H9.4v.515c-.17.086-.42.172-.68.172-.76 0-1.36-.602-1.36-1.375 0-.688.6-1.375 1.36-1.375z"></path></g></svg>
@@ -109,7 +134,7 @@ const handlePost = async() => {
                         </div>
                     </div>
                     <div class="rare flex space-x-3 items-center">
-                        <button class="bg-sky-500 text-white font-bold px-5 py-2 rounded-full hover:bg-sky-600" type="submit">Tweet</button>
+                        <button class="bg-sky-500 text-white font-bold px-5 py-2 rounded-full hover:bg-sky-600" type="submit" @click.prevent="handlePost">Tweet</button>
                     </div>
                 </div>
             </div> 
@@ -136,8 +161,9 @@ const handlePost = async() => {
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="black" class="bi bi-three-dots" viewBox="0 0 16 16"> <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/> </svg>
             </div>
         </div>
-        <div class="content w-full">
+        <div class="content w-full space-y-2 pb-2">
             <p>{{ tweet.text }}</p>
+            <img :src="tweet.image" class="w-full object-fill rounded-xl"/>
         </div>
         <div class="interactions pt-4">
             <div class="common flex justify-between w-full">
@@ -191,4 +217,7 @@ const handlePost = async() => {
 </div>
 </template>
 <style>
+input[type='file']{
+    cursor: pointer;
+}
 </style>

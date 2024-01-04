@@ -13,16 +13,16 @@ class PostController extends Controller
     {
         try{
             if($request->image || $request->text){
-                $filename = null;
+                // $filename = null;
 
-                if ($request->hasFile('image')) {
-                    $filename = $request->getSchemeAndHttpHost() . '/assets/img/' . time() . '.' . $request->image->extension();
-                    $request->image->move(public_path('/assets/img/'), $filename);
-                }
+                // if ($request->hasFile('image')) {
+                //     $filename = $request->getSchemeAndHttpHost() . '/assets/img/' . time() . '.' . $request->image->extension();
+                //     $request->image->move(public_path('/assets/img/'), $filename);
+                // }
 
                 $data['user_id'] = $request->user_id;
                 $data['text'] = $request->text;
-                $data['image'] = $filename;
+                $data['image'] = $request->image;
 
                 Post::create($data);
                 return response()->json([

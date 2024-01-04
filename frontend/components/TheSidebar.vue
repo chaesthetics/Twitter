@@ -4,7 +4,7 @@ import { useRouter } from "vue-router"
 import { initFlowbite } from 'flowbite';
 import useUser from "../composables/user";
 
-const { logOut, getUser, userData, isUpdate } = useUser();
+const { logOut, getUser, userData } = useUser();
 
 const router = useRouter();
 
@@ -13,9 +13,6 @@ onMounted( async()=> {
     await getUser();
 });
 
-if(isUpdate){
-    console.log("Nag update");
-}
 
 </script>
 <template>
