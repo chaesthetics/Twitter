@@ -111,7 +111,7 @@ const saveClickHandler = async(userId) => {
         </button>
         </div>
     </div>
-    <div class="navbar flex space-x-4 items-center sticky top-0 backdrop-blur-sm bg-white bg-opacity-80">
+    <div class="navbar flex space-x-4 items-center sticky top-0 backdrop-blur-sm bg-white bg-opacity-80 z-20">
         <div class="p-2">
             <NuxtLink to="/home" class="w-10 h-10 py-0 z-20 rounded-full hover:bg-gray-300 flex items-center justify-center duration-300">
               <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(15, 20, 25);"><g><path d="M7.414 13l5.043 5.04-1.414 1.42L3.586 12l7.457-7.46 1.414 1.42L7.414 11H21v2H7.414z"></path></g></svg>
@@ -269,7 +269,7 @@ const saveClickHandler = async(userId) => {
         </div>
        <div class="flex justify-between items-center border-b-[1px] border-gray-200 bg-white bg-opacity-80">
             <div class="flex justify-around w-full font-semibold text-center hover:cursor-pointer">
-                <div class="relative w-full py-3 hover:bg-gray-200 duration-300 flex-col h-full">
+                <div class="relative w-full py-3 hover:bg-gray-200 duration-300 flex-col h-full z-10">
                     <p class="h-full border-b-3">Posts</p>
                     <div class="absolute inset-x-0 bottom-0 w-4/12 h-1 rounded bg-sky-500 mr-auto ml-auto"></div>
                 </div>
@@ -296,8 +296,9 @@ const saveClickHandler = async(userId) => {
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="black" class="bi bi-three-dots" viewBox="0 0 16 16"> <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/> </svg>
             </div>
         </div>
-        <div class="content">
+        <div class="content pb-2 space-y-2">
             <p>{{ tweet.text }}</p>
+            <img :src="tweet.image" class="w-full object-fill rounded-xl"/>
         </div>
         <div class="interactions pt-4">
             <div class="common flex justify-between w-full">
