@@ -94,6 +94,17 @@ const saveClickHandler = async(userId) => {
     });  
 }
 
+const isActiveMenu = ref("");
+
+const activeMenu = (event) => {
+    event.target.id == isActiveMenu.value ? isActiveMenu.value = "" : isActiveMenu.value = event.target.id;
+    console.log(isActiveMenu.value);
+}
+
+const deletePost = (id) => {
+    console.log(id);
+}
+
 </script>
 <template>
 <div>
@@ -280,7 +291,7 @@ const saveClickHandler = async(userId) => {
             </div>
         </div>
 </div>   
-<div v-for="(tweet, index) in userTweet" :key="index" class="w-full hover:cursor-pointer card flex px-4 py-3 hover:bg-gray-100 duration-200 transition-200">
+<div v-for="(tweet, index) in userTweet" :key="index" class="w-full card flex px-4 py-3 hover:bg-gray-100 duration-200 transition-200">
     <img :src="user.avatar" class="rounded-full w-[42px] h-[38px] md:w-[46px] md:h-[42px] object-cover"/>
     <div class="px-4 w-full">
         <div class="flex justify-between w-full">
@@ -292,39 +303,27 @@ const saveClickHandler = async(userId) => {
                 <p class="font-light text-gray-800 items-center flex">@{{ user.email.split("@")[0]}}</p>
                 <p class="font-light text-gray-500 items-center flex"> · {{ moment(tweet.created_at)?.fromNow() }} </p> 
             </div>
-            <div class="">
-                <svg  xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="black" class="bi bi-three-dots" viewBox="0 0 16 16"> <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/> </svg>
+            <div class="relative">
+                <div class="">
+                    <svg  type="button" @click="activeMenu" :id="index+'Button'" :data-dropdown-toggle="index+'Menu'" xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="black" class="bi bi-three-dots hover:cursor-pointer" viewBox="0 0 16 16"> <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/> </svg>
+                </div>
+                <!-- Dropdown menu -->
+                <div :id="index+'Menu'" :class="`absolute left-[-140px] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-2xl w-44 dark:bg-gray-700 overflow-y-hidden ${isActiveMenu==index+'Button' ? 'visible': 'invisible'}`">
+                    <ul class="py-2 text-sm text-black dark:text-gray-200" :aria-labelledby="index+'Button'">
+                    <li>
+                        <a href="#" class="block px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Update</a>
+                    </li>
+                    <li>
+                        <a @click="deletePost(tweet.id)" class="block px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                    </li>
+                    </ul>
+                </div>
             </div>
-            
-        
         </div>
         <div class="content pb-2 space-y-2">
             <p>{{ tweet.text }}</p>
-            
-<button :id="`Button${index}`" :data-dropdown-toggle="`Menu${index}`" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Dropdown button <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-</svg>
-</button>
-
-<!-- Dropdown menu -->
-<div :id="`Menu${index}`" class="z-50 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" :aria-labelledby="`Button${index}`">
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-      </li>
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-      </li>
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-      </li>
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
-      </li>
-    </ul>
-</div>
-
             <img :src="tweet.image" class="w-full object-fill rounded-xl"/>
+            
         </div>
         <div class="interactions pt-4">
             <div class="common flex justify-between w-full">
