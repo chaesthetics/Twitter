@@ -311,15 +311,37 @@ const deletePost = (id) => {
                 <div :id="index+'Menu'" :class="`absolute left-[-140px] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-2xl w-44 dark:bg-gray-700 overflow-y-hidden ${isActiveMenu==index+'Button' ? 'visible': 'invisible'}`">
                     <ul class="py-2 text-sm text-black dark:text-gray-200" :aria-labelledby="index+'Button'">
                     <li>
-                        <a href="#" class="block px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Update</a>
+                        <a class="block px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Update</a>
                     </li>
                     <li>
                         <a @click="deletePost(tweet.id)" class="block px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
                     </li>
                     </ul>
                 </div>
+                <div id="default-modal" tabindex="-1" aria-hidden="true" class="overflow-y-hidden overflow-x-hidden fixed top-0 left-0 right-0 bg-black bg-opacity-10 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative top-1/2 left-1/2 -translate-x-1/2 mt-[50px] -translate-y-1/2 p-4 w-10/12 md:w-1/2 h-screen">
+                    
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 ">
+                      
+                            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                    Update Post
+                                </h3>
+                                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                            </div>
+                             <img :src="tweet.image"/>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        
         <div class="content pb-2 space-y-2">
             <p>{{ tweet.text }}</p>
             <img :src="tweet.image" class="w-full object-fill rounded-xl"/>
