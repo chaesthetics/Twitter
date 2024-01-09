@@ -321,10 +321,16 @@ const removeActivePost = () => {
                 <div :id="index+'Menu'" :class="`absolute left-[-140px] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-2xl w-44 dark:bg-gray-700 overflow-y-hidden ${isActiveMenu==index+'Button' ? 'visible': 'invisible'}`">
                     <ul class="py-2 text-sm text-black dark:text-gray-200" :aria-labelledby="index+'Button'">
                     <li>
-                        <a @click="updatePost(tweet.id)" class="block px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Update</a>
+                        <a @click="updatePost(tweet.id)" class="flex px-4 space-x-1 hover:cursor-pointer items-center font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="14px" width="14px"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M490.3 40.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3 149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6 21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3 339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1 385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2 352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192 63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192 127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96 448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1 416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512 352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96 63.1H192z"/></svg>
+                            <p>Update</p>
+                            </a>
                     </li>
                     <li>
-                        <a @click="deletePost(tweet.id)" class="block px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                        <a @click="deletePost(tweet.id)" class="flex hover:cursor-pointer items-center space-x-1 px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" fill="currentColor" class="bi bi-trash2" viewBox="0 0 16 16"> <path d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"/> </svg>
+                            <p>Delete</p>
+                        </a>
                     </li>
                     </ul>
                 </div>
