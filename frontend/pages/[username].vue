@@ -105,6 +105,16 @@ const deletePost = (id) => {
     console.log(id);
 }
 
+const isActivePost = ref("");
+
+const updatePost = (id) => {
+    isActivePost.value = id;
+}
+
+const removeActivePost = () => {
+    isActivePost.value = "";
+}
+
 </script>
 <template>
 <div>
@@ -311,30 +321,77 @@ const deletePost = (id) => {
                 <div :id="index+'Menu'" :class="`absolute left-[-140px] z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-2xl w-44 dark:bg-gray-700 overflow-y-hidden ${isActiveMenu==index+'Button' ? 'visible': 'invisible'}`">
                     <ul class="py-2 text-sm text-black dark:text-gray-200" :aria-labelledby="index+'Button'">
                     <li>
-                        <a class="block px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Update</a>
+                        <a @click="updatePost(tweet.id)" class="block px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Update</a>
                     </li>
                     <li>
                         <a @click="deletePost(tweet.id)" class="block px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
                     </li>
                     </ul>
                 </div>
-                <div id="default-modal" tabindex="-1" aria-hidden="true" class="overflow-y-hidden overflow-x-hidden fixed top-0 left-0 right-0 bg-black bg-opacity-10 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                    <div class="relative top-1/2 left-1/2 -translate-x-1/2 mt-[50px] -translate-y-1/2 p-4 w-10/12 md:w-1/2 h-screen">
-                    
-                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 ">
-                      
-                            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                <div :id="'edit-Modal'+tweet.id" tabindex="-1" aria-hidden="true" :class="`${ isActivePost == tweet.id ? 'visible' : 'invisible' } overflow-y-hidden overflow-x-hidden fixed top-0 left-0 right-0 bg-black bg-opacity-30 z-50 justify-center items-center w-full h-screen md:inset-0 h-[calc(100%-1rem)] max-h-full`">
+                    <div class="relative top-1/2 left-1/2 -translate-x-1/2 mt-[30px] -translate-y-1/2 p-4 w-10/12 md:w-[600px] h-screen">
+                        <div class="relative bg-white rounded-2xl shadow dark:bg-gray-700 ">
+                            <form>
+                            <div class="flex items-center justify-between px-3 py-2 rounded-t dark:border-gray-600">
+                                <h3 class="text-sm ml-2 font-bold text-sky-500 dark:text-white">
                                     Update Post
                                 </h3>
-                                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                                <button type="button" @click="removeActivePost" class="text-gray-900 bg-transparent hover:bg-gray-200 rounded-full text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
                                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                     </svg>
                                     <span class="sr-only">Close modal</span>
                                 </button>
                             </div>
-                             <img :src="tweet.image"/>
+                            <div class="flex w-full space-x-2">  
+                                <div v-if="!userData.avatar" class="flex items-center justify-center h-[42px] w-[42px] md:w-[46px] bg-stone-700 rounded-full">
+                                    <p class="text-white font-bold mb-[1px] text-sm">{{`${userData.firstname?.split("")[0]}${userData.lastname?.split("")[0]}`}}</p>
+                                </div>
+                                <img v-else :src="userData.avatar" class="ml-3 mt-2 flex rounded-full h-[42px] w-[42px] object-cover"/>
+                                <div class="content pt-4  w-full">
+                                    <textarea rows="1" v-model="tweet.text" placeholder="What's on your mind?!" class="outline-none border-none text-gray-700 text-lg resize-none w-full overflow-hidden h-auto outline-none border-none focus:outline-none focus:ring-0 focus:ring-offset-0"></textarea>
+                                </div>
+                            </div>
+                            <img :src="tweet.image" class="max-h-[90px] md:max-h-[130px] ml-14 mt-3 hover:brightness-50 duration-300 transition-300"/>
+                            <div class="px-3 py-2 w-full">
+                                    <div>
+                                        <!-- <img :src="postForm.image"/> -->
+                                        <button class="mt-2 flex ml-[5px] space-x-1 px-2 py-1 hover:bg-sky-100 w-auto rounded-full duration-300 transition-300 justify-center"> 
+                                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1d4mawv r-10ptun7 r-1janqcz" style="rgb(14 165 233);"><g><path fill="rgb(2 132 199)" d="M12 1.75C6.34 1.75 1.75 6.34 1.75 12S6.34 22.25 12 22.25 22.25 17.66 22.25 12 17.66 1.75 12 1.75zm-.25 10.48L10.5 17.5l-2-1.5v-3.5L7.5 9 5.03 7.59c1.42-2.24 3.89-3.75 6.72-3.84L11 6l-2 .5L8.5 9l5 1.5-1.75 1.73zM17 14v-3l-1.5-3 2.88-1.23c1.17 1.42 1.87 3.24 1.87 5.23 0 1.3-.3 2.52-.83 3.61L17 14z"></path></g></svg>
+                                            <p class="font-bold text-sm text-sky-500">Everyone can reply</p>
+                                        </button>
+                                        <hr class="text-black border-0 h-[1px] bg-gray-300 mt-2">
+                                    </div>
+                                    <div class="interactions pt-2">
+                                        <div class="common flex justify-between w-full items-center">
+                                            <div class="flex space-x-3">
+                                                <div class="hover:cursor-pointer w-8 h-8 rounded-full flex justify-center items-center hover:bg-blue-100 duration-300 transition-300">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(29, 155, 240);"><g><path fill="rgb(29, 155, 240)" d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"></path></g></svg>
+                                                    <input type="file" class="absolute w-[20px] opacity-0 hover:cursor-pointer">
+                                                </div>
+                                                <div class="hover:cursor-pointer w-8 h-8 rounded-full flex justify-center items-center hover:bg-sky-100 duration-300 transition-300">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(29, 155, 240);"><g><path fill="rgb(29, 155, 240)" d="M3 5.5C3 4.119 4.12 3 5.5 3h13C19.88 3 21 4.119 21 5.5v13c0 1.381-1.12 2.5-2.5 2.5h-13C4.12 21 3 19.881 3 18.5v-13zM5.5 5c-.28 0-.5.224-.5.5v13c0 .276.22.5.5.5h13c.28 0 .5-.224.5-.5v-13c0-.276-.22-.5-.5-.5h-13zM18 10.711V9.25h-3.74v5.5h1.44v-1.719h1.7V11.57h-1.7v-.859H18zM11.79 9.25h1.44v5.5h-1.44v-5.5zm-3.07 1.375c.34 0 .77.172 1.02.43l1.03-.86c-.51-.601-1.28-.945-2.05-.945C7.19 9.25 6 10.453 6 12s1.19 2.75 2.72 2.75c.85 0 1.54-.344 2.05-.945v-2.149H8.38v1.032H9.4v.515c-.17.086-.42.172-.68.172-.76 0-1.36-.602-1.36-1.375 0-.688.6-1.375 1.36-1.375z"></path></g></svg>
+                                                </div>
+                                                <div class="hover:cursor-pointer w-8 h-8 rounded-full flex justify-center items-center hover:bg-sky-100 duration-300 transition-300">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(29, 155, 240);"><g><path fill="rgb(29, 155, 240)" d="M6 5c-1.1 0-2 .895-2 2s.9 2 2 2 2-.895 2-2-.9-2-2-2zM2 7c0-2.209 1.79-4 4-4s4 1.791 4 4-1.79 4-4 4-4-1.791-4-4zm20 1H12V6h10v2zM6 15c-1.1 0-2 .895-2 2s.9 2 2 2 2-.895 2-2-.9-2-2-2zm-4 2c0-2.209 1.79-4 4-4s4 1.791 4 4-1.79 4-4 4-4-1.791-4-4zm20 1H12v-2h10v2zM7 7c0 .552-.45 1-1 1s-1-.448-1-1 .45-1 1-1 1 .448 1 1z"></path></g></svg>
+                                                </div>
+                                                <div class="hover:cursor-pointer w-8 h-8 rounded-full flex justify-center items-center hover:bg-sky-100 duration-300 transition-300">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(29, 155, 240);"><g><path fill="rgb(29, 155, 240)" d="M8 9.5C8 8.119 8.672 7 9.5 7S11 8.119 11 9.5 10.328 12 9.5 12 8 10.881 8 9.5zm6.5 2.5c.828 0 1.5-1.119 1.5-2.5S15.328 7 14.5 7 13 8.119 13 9.5s.672 2.5 1.5 2.5zM12 16c-2.224 0-3.021-2.227-3.051-2.316l-1.897.633c.05.15 1.271 3.684 4.949 3.684s4.898-3.533 4.949-3.684l-1.896-.638c-.033.095-.83 2.322-3.053 2.322zm10.25-4.001c0 5.652-4.598 10.25-10.25 10.25S1.75 17.652 1.75 12 6.348 1.75 12 1.75 22.25 6.348 22.25 12zm-2 0c0-4.549-3.701-8.25-8.25-8.25S3.75 7.451 3.75 12s3.701 8.25 8.25 8.25 8.25-3.701 8.25-8.25z"></path></g></svg>
+                                                </div>
+                                                <div class="hover:cursor-pointer w-8 h-8 rounded-full flex justify-center items-center hover:bg-sky-100 duration-300 transition-300">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(29, 155, 240);"><g><path fill="rgb(29, 155, 240)" d="M6 3V2h2v1h6V2h2v1h1.5C18.88 3 20 4.119 20 5.5v2h-2v-2c0-.276-.22-.5-.5-.5H16v1h-2V5H8v1H6V5H4.5c-.28 0-.5.224-.5.5v12c0 .276.22.5.5.5h3v2h-3C3.12 20 2 18.881 2 17.5v-12C2 4.119 3.12 3 4.5 3H6zm9.5 8c-2.49 0-4.5 2.015-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.015 4.5-4.5-2.01-4.5-4.5-4.5zM9 15.5C9 11.91 11.91 9 15.5 9s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5S9 19.09 9 15.5zm5.5-2.5h2v2.086l1.71 1.707-1.42 1.414-2.29-2.293V13z"></path></g></svg>
+                                                </div>
+                                                <div class="hover:cursor-pointer w-8 h-8 rounded-full flex justify-center items-center hover:bg-sky-100 duration-300 transition-300">
+                                                    <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(29, 155, 240);"><g><path fill="rgb(29, 155, 240)" d="M12 7c-1.93 0-3.5 1.57-3.5 3.5S10.07 14 12 14s3.5-1.57 3.5-3.5S13.93 7 12 7zm0 5c-.827 0-1.5-.673-1.5-1.5S11.173 9 12 9s1.5.673 1.5 1.5S12.827 12 12 12zm0-10c-4.687 0-8.5 3.813-8.5 8.5 0 5.967 7.621 11.116 7.945 11.332l.555.37.555-.37c.324-.216 7.945-5.365 7.945-11.332C20.5 5.813 16.687 2 12 2zm0 17.77c-1.665-1.241-6.5-5.196-6.5-9.27C5.5 6.916 8.416 4 12 4s6.5 2.916 6.5 6.5c0 4.073-4.835 8.028-6.5 9.27z"></path></g></svg>
+                                                </div>
+                                            </div>
+                                            <div class="rare flex space-x-3 items-center">
+                                                <button class="bg-sky-500 text-white font-bold px-5 py-2 rounded-full hover:bg-sky-600" type="submit">Tweet</button>
+                                            </div>
+                                        </div>
+                                    </div> 
+                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
