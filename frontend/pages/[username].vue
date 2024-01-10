@@ -4,9 +4,10 @@ import { onMounted, reactive } from "vue";
 import useUser from "../composables/user";
 import { initFlowbite } from 'flowbite';
 import moment from 'moment';
+import usePost from "../composables/posts";
 
 const { logOut, getUser, userData, updateProfile, fetchUserTweets, userTweets } = useUser();
-
+const { update } = usePost(); 
 const user = ref({
     firstname: "",
     lastname: "",
@@ -15,6 +16,11 @@ const user = ref({
     avatar: "",
     cover: "",
 });
+
+const updatePostForm = ref({
+    text: "",
+    image: "",
+}); 
 
 const userTweet = ref({}); 
 
@@ -124,14 +130,26 @@ const imageRemover = () => {
     isPostImageRemoved.value = true;
 }
 
-const updatePostHandler = (postId, text, image) => {
+const updatePostHandler = async(postId, text, image) => {
+    updatePostForm.value.text = text;
+    updatePostForm.value.image = image;
     if(isPostImageRemoved.value===true){
-        image = "";
+        updatePostForm.value.image = "";
     }
     if(addedPic.value!==""){
-        image= addedPic.value;
+        updatePostForm.value.image = addedPic.value;
     }
-    console.log(text,image);
+    await update(postId, updatePostForm.value);
+    fetchUserTweets(userData.value.id).then(()=>{
+            userTweet.value = userTweets.value;
+            userTweet.value.reverse();
+        }).then(()=>{
+            isAddedPic.value = false;
+            addedPic.value = "";
+            isActivePost.value = "";
+            isPostImageRemoved.value = false;
+            isActiveMenu.value = "";
+    })
 }
 
 const isAddedPic = ref(false);
