@@ -112,10 +112,10 @@ const updatePost = (id) => {
 }
 
 const removeActivePost = () => {
-    isActivePost.value = "";
-    isPostImageRemoved.value = false;
     isAddedPic.value = false;
     addedPic.value = "";
+    isActivePost.value = "";
+    isPostImageRemoved.value = false;
 }
 
 const isPostImageRemoved = ref(false);
