@@ -112,7 +112,47 @@ const updatePost = (id) => {
 }
 
 const removeActivePost = () => {
+    isAddedPic.value = false;
+    addedPic.value = "";
     isActivePost.value = "";
+    isPostImageRemoved.value = false;
+}
+
+const isPostImageRemoved = ref(false);
+
+const imageRemover = () => {
+    isPostImageRemoved.value = true;
+}
+
+const updatePostHandler = (postId, text, image) => {
+    if(isPostImageRemoved.value===true){
+        image = "";
+    }
+    if(addedPic.value!==""){
+        image= addedPic.value;
+    }
+    console.log(text,image);
+}
+
+const isAddedPic = ref(false);
+const addedPic = ref("");
+
+const handleImagePostChange = async(event) => {
+    isAddedPic.value = true;
+    const newPic = event.target.files[0];
+    if(newPic){
+        try{
+            const base64Pic = await convertToBase64(newPic);
+            addedPic.value = base64Pic;
+        }catch(err){
+            console.error("Error in converting image to base64", err);
+        }
+    }
+}
+
+const isAddedRemover = () => {
+    isAddedPic.value = false;
+    addedPic.value = "";
 }
 
 </script>
@@ -358,7 +398,18 @@ const removeActivePost = () => {
                                     <textarea rows="1" v-model="tweet.text" placeholder="What's on your mind?!" class="outline-none border-none text-gray-700 text-lg resize-none w-full overflow-hidden h-auto outline-none border-none focus:outline-none focus:ring-0 focus:ring-offset-0"></textarea>
                                 </div>
                             </div>
-                            <img :src="tweet.image" class="max-h-[90px] md:max-h-[130px] ml-14 mt-3 hover:brightness-50 duration-300 transition-300"/>
+                            <div v-if="tweet.image&&!isPostImageRemoved" class="relative h-[90px] w-[70px] md:h-[140px] md:w-[100px]">
+                                <img :src="tweet.image" class="h-full w-full object-cover ml-14 mt-3 hover:brightness-50 duration-300 transition-300"/>
+                                <div @click.prevent="imageRemover" class="absolute md:px-[3px] px-[1px] text-sm hover:cursor-pointer top-[-9px] right-[-65px] md:right-[-70px] z-30 py-[1px] md:py-[3px] rounded-full bg-neutral-800 bg-opacity-60 hover:bg-opacity-90 hover:text-white text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
+                                </div>
+                            </div>
+                             <div v-if="isAddedPic" class="relative h-[90px] w-[70px] md:h-[140px] md:w-[100px]">
+                                <img :src="addedPic" class="h-full w-full object-cover ml-14 mt-3 hover:brightness-50 duration-300 transition-300"/>
+                                <div @click.prevent="isAddedRemover" class="absolute md:px-[3px] px-[1px] text-sm hover:cursor-pointer top-[-9px] right-[-65px] md:right-[-70px] z-30 py-[1px] md:py-[3px] rounded-full bg-neutral-800 bg-opacity-60 hover:bg-opacity-90 hover:text-white text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16"> <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/> </svg>
+                                </div>
+                            </div>
                             <div class="px-3 py-2 w-full">
                                     <div>
                                         <!-- <img :src="postForm.image"/> -->
@@ -373,7 +424,7 @@ const removeActivePost = () => {
                                             <div class="flex space-x-3">
                                                 <div class="hover:cursor-pointer w-8 h-8 rounded-full flex justify-center items-center hover:bg-blue-100 duration-300 transition-300">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(29, 155, 240);"><g><path fill="rgb(29, 155, 240)" d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z"></path></g></svg>
-                                                    <input type="file" class="absolute w-[20px] opacity-0 hover:cursor-pointer">
+                                                    <input type="file" @change.prevent="handleImagePostChange" class="absolute w-[20px] opacity-0 hover:cursor-pointer">
                                                 </div>
                                                 <div class="hover:cursor-pointer w-8 h-8 rounded-full flex justify-center items-center hover:bg-sky-100 duration-300 transition-300">
                                                     <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03" style="color: rgb(29, 155, 240);"><g><path fill="rgb(29, 155, 240)" d="M3 5.5C3 4.119 4.12 3 5.5 3h13C19.88 3 21 4.119 21 5.5v13c0 1.381-1.12 2.5-2.5 2.5h-13C4.12 21 3 19.881 3 18.5v-13zM5.5 5c-.28 0-.5.224-.5.5v13c0 .276.22.5.5.5h13c.28 0 .5-.224.5-.5v-13c0-.276-.22-.5-.5-.5h-13zM18 10.711V9.25h-3.74v5.5h1.44v-1.719h1.7V11.57h-1.7v-.859H18zM11.79 9.25h1.44v5.5h-1.44v-5.5zm-3.07 1.375c.34 0 .77.172 1.02.43l1.03-.86c-.51-.601-1.28-.945-2.05-.945C7.19 9.25 6 10.453 6 12s1.19 2.75 2.72 2.75c.85 0 1.54-.344 2.05-.945v-2.149H8.38v1.032H9.4v.515c-.17.086-.42.172-.68.172-.76 0-1.36-.602-1.36-1.375 0-.688.6-1.375 1.36-1.375z"></path></g></svg>
@@ -392,7 +443,7 @@ const removeActivePost = () => {
                                                 </div>
                                             </div>
                                             <div class="rare flex space-x-3 items-center">
-                                                <button class="bg-sky-500 text-white font-bold px-5 py-2 rounded-full hover:bg-sky-600" type="submit">Tweet</button>
+                                                <button @click.prevent="updatePostHandler(tweet.id, tweet.text, tweet.image)" class="bg-sky-500 text-white font-bold px-5 py-2 rounded-full hover:bg-sky-600" type="submit">Save</button>
                                             </div>
                                         </div>
                                     </div> 
