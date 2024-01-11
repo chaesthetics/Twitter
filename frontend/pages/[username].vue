@@ -144,11 +144,16 @@ const updatePostHandler = async(postId, text, image) => {
             userTweet.value = userTweets.value;
             userTweet.value.reverse();
         }).then(()=>{
+            updateToastSuccess.value = JSON.parse(localStorage.getItem("updatePostSuccess"));
             isAddedPic.value = false;
             addedPic.value = "";
             isActivePost.value = "";
             isPostImageRemoved.value = false;
             isActiveMenu.value = "";
+            localStorage.removeItem("updatePostSuccess");
+            setTimeout((()=>{
+                updateToastSuccess.value = "";
+            }), 6000);
     })
 }
 
