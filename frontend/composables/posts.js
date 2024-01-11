@@ -34,6 +34,7 @@ const usePost = () => {
         try{
             const response = await axios.put(`${baseURL}/update/${postId}`, data);
             postUpdateSuccess.value = response.data;
+            localStorage.setItem("updatePostSuccess", JSON.stringify(postUpdateSuccess.value.message));
         }catch(err){
             console.log(err);
         }
