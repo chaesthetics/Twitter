@@ -7,7 +7,8 @@ import moment from 'moment';
 import usePost from "../composables/posts";
 
 const { logOut, getUser, userData, updateProfile, fetchUserTweets, userTweets } = useUser();
-const { update } = usePost(); 
+const { update, deletepost } = usePost(); 
+
 const user = ref({
     firstname: "",
     lastname: "",
@@ -82,6 +83,24 @@ const coverPicHandler = async(event) => {
     }
 }
 
+const deleteSuccess = ref("");
+
+const handleDeletePost = async(postId) => {
+    await deletepost(postId);
+    fetchUserTweets(userData.value.id).then(()=>{
+        userTweet.value = userTweets.value;
+        userTweet.value.reverse();
+    }).then(()=>{
+        deleteSuccess.value = JSON.parse(localStorage.getItem("deleteSuccess"));
+        isActiveMenu.value = "";
+        isActivePost.value = "";
+        setTimeout((()=>{
+            deleteSuccess.value = "";
+        }), 4000);
+        localStorage.removeItem("deleteSuccess");
+    });
+}
+
 const saveClickHandler = async(userId) => {
     await updateProfile(userId).then(()=>{
         document.getElementById('closeModal').click();
@@ -105,10 +124,6 @@ const isActiveMenu = ref("");
 const activeMenu = (event) => {
     event.target.id == isActiveMenu.value ? isActiveMenu.value = "" : isActiveMenu.value = event.target.id;
     console.log(isActiveMenu.value);
-}
-
-const deletePost = (id) => {
-    console.log(id);
 }
 
 const isActivePost = ref("");
@@ -181,7 +196,21 @@ const isAddedRemover = () => {
 </script>
 <template>
 <div>
-    <div v-if="updateToastSuccess" class="absolute left-10 top-10 space-x-1 animate-bounce bg-green-50 z-10">
+    <div v-if="deleteSuccess" class="absolute left-10 top-10 space-x-1 animate-bounce bg-red-50 z-50">
+        <div id="toast-success" class="flex items-center max-w-xs px-7 py-2 text-gray-500  border-t-4 border-red-400 rounded-md shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+        <div>
+            <span class="text-md font-bold text-red-500 text-red-800">Success</span>
+            <div class="text-xs text-red-600 font-normal duration-300">{{ deleteSuccess }}</div>
+        </div>
+        <button type="button" class="ms-auto -mx-2.5 -my-1.5 text-red-800 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-warning" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+            </svg>
+        </button>
+        </div>
+    </div>
+     <div v-if="updateToastSuccess" class="absolute left-10 top-10 space-x-1 animate-bounce bg-green-50 z-50">
         <div id="toast-success" class="flex items-center max-w-xs px-7 py-2 text-gray-500  border-t-4 border-green-400 rounded-md shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
         <div>
             <span class="text-md font-bold text-green-500 text-green-800">Success</span>
@@ -390,7 +419,7 @@ const isAddedRemover = () => {
                             </a>
                     </li>
                     <li>
-                        <a @click="deletePost(tweet.id)" class="flex hover:cursor-pointer items-center space-x-1 px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <a @click="handleDeletePost(tweet.id)" class="flex hover:cursor-pointer items-center space-x-1 px-4 font-semibold text-black py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14px" height="14px" fill="currentColor" class="bi bi-trash2" viewBox="0 0 16 16"> <path d="M14 3a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2zM3.215 4.207l1.493 8.957a1 1 0 0 0 .986.836h4.612a1 1 0 0 0 .986-.836l1.493-8.957C11.69 4.689 9.954 5 8 5c-1.954 0-3.69-.311-4.785-.793z"/> </svg>
                             <p>Delete</p>
                         </a>
