@@ -40,12 +40,22 @@ const usePost = () => {
         }
     }
 
+    const deletepost = async(postId) => {
+        try{
+            const response = await axios.delete(`${baseURL}/deletePost/${postId}`);
+            localStorage.setItem("deleteSuccess", JSON.stringify(response.data.message));
+        }catch(err){
+            console.log(err);
+        }
+    }
+
     return {
         post,
         getAllPost,
         errors,
         tweets,
         update,
+        deletepost,
     }
 }
 
