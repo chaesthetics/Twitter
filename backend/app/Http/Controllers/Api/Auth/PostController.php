@@ -55,4 +55,41 @@ class PostController extends Controller
             ], 500);
         }
     }
+
+    public function update(PostRequest $request, $postId)
+    {
+        try{
+            $post = Post::find($postId);
+            $post->update([
+                'text' => $request->text,
+                'image' => $request->image,
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Post Updated Succesfully',
+            ], 200);
+        }catch(\Throwable $th){
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function deletePost($postId)
+    {
+        try{
+            $post = Post::find($postId);
+            $post->delete();
+            return response()->json([
+                "status" => true,
+                "message" => "Post Deleted Succesfully",
+            ], 200);
+        }catch(\Throwable $th){
+            return response()->json([
+                "status" => false,
+                "message" => $th->getMessage(),
+            ], 500);
+        }
+    }
 }
