@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Throwable;
 
 class AuthController extends Controller
 {
@@ -130,5 +131,27 @@ class AuthController extends Controller
         $user = User::find($userId);
         $user->posts;
         return response()->json($user);
+    }
+
+    public function getThisUserData($username)
+    {
+        try{
+            $user = User::where('email', $username.="@gmail.com")->first();
+            $user->posts;
+            if($user){
+                return response()->json($user);
+            }else{
+                return response()->json([
+                    'status' => true,
+                    'message' => 'User not found',
+                ], 404);
+            }
+        }catch(\Throwable $th){
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+        
     }
 }

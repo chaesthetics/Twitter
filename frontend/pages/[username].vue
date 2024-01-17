@@ -18,6 +18,8 @@ const user = ref({
     cover: "",
 });
 
+const router = useRoute();
+
 const updatePostForm = ref({
     text: "",
     image: "",
@@ -33,6 +35,7 @@ onMounted(async()=>{
     }
     initFlowbite();
     await getUser().then(()=>{
+        console.log(router.path.replace("/", ""));
         user.value.firstname = userData.value.firstname;
         user.value.lastname = userData.value.lastname;
         user.value.email = userData.value.email;
@@ -406,7 +409,7 @@ const isAddedRemover = () => {
                 <p class="font-light text-gray-500 items-center flex"> · {{ moment(tweet.created_at)?.fromNow() }} </p> 
             </div>
             <div class="relative">
-                <div class="">
+                <div class="hover:bg-sky-200 animation-300 duration-300 rounded-full px-2 py-2">
                     <svg  type="button" @click="activeMenu" :id="index+'Button'" :data-dropdown-toggle="index+'Menu'" xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="black" class="bi bi-three-dots hover:cursor-pointer" viewBox="0 0 16 16"> <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/> </svg>
                 </div>
                 <!-- Dropdown menu -->
