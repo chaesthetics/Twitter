@@ -24,6 +24,7 @@ Route::controller(AuthController::class)->group(function(){
     Route::post('/login', 'login');
     Route::put('/editProfile/{userId}', 'editProfile');
     Route::get('getUserData/{userId}', 'getUserData');
+    Route::get('getThisUserData/{username}', 'getThisUserData');
 });
 
 Route::controller(PostController::class)->group(function(){
