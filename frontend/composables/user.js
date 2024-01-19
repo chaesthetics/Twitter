@@ -10,6 +10,7 @@ const useUser = () => {
     const errorsMessage = ref({});
     const successMessage = ref('');
     const userTweets = ref({});
+    const thisUser = ref({});
 
     const baseURL = 'http://127.0.0.1:8000/api';
     
@@ -81,6 +82,15 @@ const useUser = () => {
         }
     }
     
+    const getThisUserData = async(username) => {
+        try{
+            const response = await axios.get(`${baseURL}/getThisUserData/${username}`);
+            thisUser.value = response.data;
+            console.log("This User:", thisUser.value);
+        }catch(err){
+            console.log(err);
+        }
+    }
     return{
         signUp,
         logIn,
@@ -93,6 +103,8 @@ const useUser = () => {
         errors,     
         errorsMessage, 
         successMessage,
+        getThisUserData,
+        thisUser,
     }
 }
 

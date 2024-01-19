@@ -101,7 +101,7 @@ const tweetFileHandler = async(event) => {
         <form class="" >
             <div>
                 <div class="content pt-2">
-                    <textarea v-model="postForm.text" rows="1" placeholder="What's on your mind?!" class="outline text-gray-700 text-lg outline-none w-full overflow-hidden resize-y h-auto outline-none border-none focus:outline-none focus:ring-0 focus:ring-offset-0"></textarea>
+                    <textarea v-model="postForm.text" rows="1" placeholder="What's on your mind?!" class="outline text-gray-700 text-lg outline-none w-full overflow-hidden resize-none h-auto outline-none border-none focus:outline-none focus:ring-0 focus:ring-offset-0"></textarea>
                 </div>
                 <img :src="postForm.image"/>
                 <button class="mt-2 flex ml-[-10px] space-x-1 px-2 py-1 hover:bg-sky-100 w-auto rounded-full duration-300 transition-300"> 
