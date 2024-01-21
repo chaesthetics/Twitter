@@ -60,6 +60,17 @@ const tweetFileHandler = async(event) => {
     }
 }
 
+const activePost = ref("");
+
+const setActivePost = (postId) => {
+    activePost.value = postId;
+    console.log("activePost", postId);
+} 
+
+const removeActivePost = () => {
+    activePost.value = "";
+}
+
 </script>
 
 <template>
@@ -151,7 +162,42 @@ const tweetFileHandler = async(event) => {
         <div class="flex justify-between w-full">
             <div class="userinfo flex space-x-1">   
                 <div class="flex space-x-1 items-center">
-                    <NuxtLink :to="`/profile/${tweet.user.email.split('@')[0]}`" class="font-semibold text-black">{{ tweet.user.firstname }}</NuxtLink>
+                    <NuxtLink @mouseleave="removeActivePost" @mouseover="setActivePost(tweet.id)" :to="`/profile/${tweet.user.email.split('@')[0]}`" class="font-semibold text-black hover:underline">{{ tweet.user.firstname }}</NuxtLink>
+                    
+<div :id="`popover-user-profile${tweet.id}`" :class="`${tweet.id === activePost ? 'visible' : 'invisible'} absolute z-10 mt-[230px] left-[70px] md:left-[280px] inline-block w-[300px] text-sm text-gray-500 transition-opacity duration-300 transition-300 bg-white border border-gray-200 rounded-xl shadow-2xl opacity-100 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600`">
+    <div class="p-3">
+        <div class="flex items-center justify-between mb-2">
+            <a href="#">
+                <img class="w-16 h-16 rounded-full object-cover" :src="tweet.user.avatar" :alt="tweet.user.firstname">
+            </a>
+            <div>
+                <button type="button" class="text-white bg-neutral-900 hover:bg-neutral-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-md px-4 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Follow</button>
+            </div>
+        </div>
+        <p class="text-base font-bold leading-none text-gray-900 dark:text-white">
+            <a href="#">{{tweet.user.firstname+' '+tweet.user.lastname}}</a>
+        </p>
+        <p class="mb-3 text-md font-normal">
+            <a href="#" class="hover:underline">@{{tweet.user.firstname}}</a>
+        </p>
+        <p class="mb-4 text-sm">Default Bio <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline">username.com</a>.</p>
+        <ul class="flex text-sm">
+            <li class="me-2">
+                <a href="#" class="hover:underline space-x-1">
+                    <span class="font-semibold text-gray-900 dark:text-white">11</span>
+                    <span>Following</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="hover:underline space-x-1">
+                    <span class="font-semibold text-gray-900 dark:text-white">379.4K</span>
+                    <span>Followers</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
                     <img class="h-5 w-5 mt-1" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADP0lEQVR4nO2az08TQRTHN+hR/QNM9ODVqAcvBk3ovBZ/HMATEcXon2CigvFUj+AN8aAJmEjnlYSTnk3UgzcjnozExKghUVQOwr63tQqseWyBWrtlpu2sVHnJO3R3uvP5zryZNzuznrdl/7ApTVdB+1e8VjSVD84qpCXQtJzO0UWvlUzlfVCavgNyGDn9SCGd8DaDZe4HexXSW0AaTqOf6XgSbi+/r5APA/LCOnzkCok7cnykvGw2G7ZJeYV8QyG/Oj4R7HEuADDo/R2MPwPyWErz6Yz2DyjNs5Xwa2U1z0oZKSv/UdF/y8oEvc4FKKTbcYCNutI04lwAIL90J4CnnMK3j37dqTQtOuyBxZO5uV3OBEDe73QFDyWXicFJy0fw9MC1AJA68n6n1Fk3cCbPuwG5SyEPAtIzpanoHpz/CCeZWgH5rkK6oPL+fmMBgDydNDBs5JpfGwtQyENJA55/WKjdI8iDxgJSOjiaJPzlR4Xw3bel8M5UMV7ARNBuLEBSPGj+lCT8zELk1URIxu6ZDLd5Niap3jV8/+NC+L4MXlx+91WEk0Ie9WxN5bg7yZafKcGLqCrlu6wFyKLLFfxATMv3V4cPhcWu9WWJW2NVmSQ8lFaxwmT+MoI8v1ngYW0cEIGmUzXh0+j32WTdjeZukwHbbwC/3hNUVNo/VxUekC+tvMMaPmzkedEYoJGWh0rXtAxI1xoSIPCmIE2FxxoCTENI5mhToGbDq1ohZDOIq83hH+aXwutPC+7g0WAQ20yjtUQ0v+XZfBq1SWRxM0u1awP1xjzWkcjESlsfGz68Wk80bcBiqQdy3G0tADTfM60gTkQz4CHyMSv4lR0zy6VEpYgmwofWy+kMBsfqqWhVRDPhoeTykmUTPjfrrUgGayMDFuJ7YailX+qVpjctva2SxsI+77/Z2Ioz2fZzLSCV89OeK+uYDHeApp8uw6bdRcuXm2yBOxOA/MIpfCSARpyFkKZbf+OIaQ6QxwGDHjVOh2puiGn+Ann/YDSWaBiQP5bfT+vgjHMBchAneUISi2RHWXaYHPLJtcolcTYbtskzSnux04kc8pkYaF9t2mNWm1Br2YPuVZPPDFr2U4Mt88zsF/L7hiBlV3/sAAAAAElFTkSuQmCC">
                 </div>
                 <p class="font-light text-gray-800 items-center flex">@{{ tweet.user.email.split("@")[0] }}</p>
