@@ -376,10 +376,13 @@ const isAddedRemover = () => {
             </div>
             <div class="flex space-x-6">
                 <div class="text-[14px] flex mt-3 space-x-1 hover:cursor-pointer hover:underline">
-                    <p class="font-bold">11</p><p class="text-gray-700">Following</p>
+                    <p class="font-bold">{{ userTweet.length }}</p><p class="text-gray-700">Tweets</p>
                 </div>
                 <div class="text-[14px] flex mt-3 space-x-1 hover:cursor-pointer hover:underline">
-                    <p class="font-bold">379.4K</p><p class="text-gray-700">Followers</p>
+                    <p class="font-bold"></p><p class="text-gray-700">Following</p>
+                </div>
+                <div class="text-[14px] flex mt-3 space-x-1 hover:cursor-pointer hover:underline">
+                    <p class="font-bold"></p><p class="text-gray-700">Followers</p>
                 </div>
             </div>
         </div>
