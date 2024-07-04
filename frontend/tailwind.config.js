@@ -9,8 +9,19 @@ export default {
     "./error.vue",
     "./node_modules/flowbite/**/*.{js,ts}",
   ],
+  darkMode: 'class',
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+
+        themeBackground: 
+        'var(--background)'
+        ,
+                themeText: 
+        'var(--text)'
+        ,
+      },
+    },
   },
   plugins: [
     require('flowbite/plugin')

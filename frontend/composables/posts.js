@@ -9,11 +9,15 @@ const usePost = () => {
     const post = async(userId, token, data) => {
         try{
             await axios.post(`${baseURL}/post`, 
-                {
+                { 
                     token: token,
                     user_id: userId,
                     text: data.text,
                     image: data.image,
+                },{
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
                 }
             );
         }catch(err){
@@ -21,18 +25,42 @@ const usePost = () => {
         }
     }
 
-    const getAllPost = async() => {
-        try{
-            const response = await axios.get(`${baseURL}/getAllPost`);
+    const getAllPost = async () => {
+        const token = localStorage.getItem("token");
+        try {
+            const response = await axios.get(`${baseURL}/getAllPost`, {
+                headers: {
+                      Authorization: `Bearer ${token}`
+                }
+            });
             tweets.value = response.data;
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
 
+    // const getAllPost = async (token) => {
+    //     try {
+    //         const response = await axios.get(`${baseURL}/getAllPost`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         });
+    //         tweets.value = response.data;
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
+
+
     const update = async(postId, data) => {
+        const token = localStorage.getItem("token");
         try{
-            const response = await axios.put(`${baseURL}/update/${postId}`, data);
+            const response = await axios.put(`${baseURL}/update/${postId}`, data, {
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                }
+            });
             postUpdateSuccess.value = response.data;
             localStorage.setItem("updatePostSuccess", JSON.stringify(postUpdateSuccess.value.message));
         }catch(err){
@@ -41,8 +69,13 @@ const usePost = () => {
     }
 
     const deletepost = async(postId) => {
+        const token = localStorage.getItem("token");
         try{
-            const response = await axios.delete(`${baseURL}/deletePost/${postId}`);
+            const response = await axios.delete(`${baseURL}/deletePost/${postId}`,{
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                }
+            });
             localStorage.setItem("deleteSuccess", JSON.stringify(response.data.message));
         }catch(err){
             console.log(err);
