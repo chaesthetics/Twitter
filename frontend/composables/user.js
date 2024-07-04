@@ -39,8 +39,13 @@ const useUser = () => {
     } 
     
     const updateProfile = async(userId) => {
+        const token = localStorage.getItem("token");
         try{
-            const response1 = await axios.put(`${baseURL}/editProfile/${userId}`, userData.value);
+            const response1 = await axios.put(`${baseURL}/editProfile/${userId}`, userData.value, {
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                }
+            });
             const response = await updateUserData(userId);
             userData.value = response.data;
             localStorage.setItem("updateProfileSuccess", JSON.stringify(response1.data.message));
@@ -51,7 +56,12 @@ const useUser = () => {
     }
 
     const updateUserData = async(userId) => {
-        const response = await axios.get(`${baseURL}/getUserData/${userId}`);
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`${baseURL}/getUserData/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response;
     }
 
@@ -74,8 +84,13 @@ const useUser = () => {
     }
 
     const fetchUserTweets = async(userId) =>{
+        const token = localStorage.getItem("token");
         try{
-            const response = await axios.get(`${baseURL}/getUserData/${userId}`);
+            const response = await axios.get(`${baseURL}/getUserData/${userId}`,{
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
             userTweets.value = response.data.posts;
         }catch(err){
             console.log(err);
@@ -83,8 +98,13 @@ const useUser = () => {
     }
     
     const getThisUserData = async(username) => {
+        const token = localStorage.getItem("token");
         try{
-            const response = await axios.get(`${baseURL}/getThisUserData/${username}`);
+            const response = await axios.get(`${baseURL}/getThisUserData/${username}`,{
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                }
+            });
             thisUser.value = response.data;
             console.log("This User:", thisUser.value);
         }catch(err){

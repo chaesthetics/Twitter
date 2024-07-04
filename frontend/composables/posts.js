@@ -54,8 +54,13 @@ const usePost = () => {
 
 
     const update = async(postId, data) => {
+        const token = localStorage.getItem("token");
         try{
-            const response = await axios.put(`${baseURL}/update/${postId}`, data);
+            const response = await axios.put(`${baseURL}/update/${postId}`, data, {
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                }
+            });
             postUpdateSuccess.value = response.data;
             localStorage.setItem("updatePostSuccess", JSON.stringify(postUpdateSuccess.value.message));
         }catch(err){
@@ -64,8 +69,13 @@ const usePost = () => {
     }
 
     const deletepost = async(postId) => {
+        const token = localStorage.getItem("token");
         try{
-            const response = await axios.delete(`${baseURL}/deletePost/${postId}`);
+            const response = await axios.delete(`${baseURL}/deletePost/${postId}`,{
+                headers:{
+                    Authorization: `Bearer ${token}`,
+                }
+            });
             localStorage.setItem("deleteSuccess", JSON.stringify(response.data.message));
         }catch(err){
             console.log(err);

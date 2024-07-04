@@ -399,7 +399,10 @@ const isAddedRemover = () => {
         </div>
 </div>   
 <div v-for="(tweet, index) in userTweet" :key="index" class="w-full card flex px-4 py-3 hover:bg-gray-100 duration-200 transition-200">
-    <img :src="user.avatar" class="rounded-full w-[42px] h-[38px] md:w-[46px] md:h-[42px] object-cover"/>
+    <div v-if="!user.avatar" class="flex items-center justify-center h-[42px] w-[48px] md:w-[46px] mt-1 bg-stone-700 rounded-full">
+        <p :class="`text-white font-bold mb-[1px] text-sm`">{{ `${user.firstname.split("")[0]}${user.lastname.split("")[0]}`}}</p>
+    </div>
+    <img v-else :src="user.avatar" class="rounded-full w-[42px] h-[38px] md:w-[46px] md:h-[42px] object-cover"/>
     <div class="px-4 w-full">
         <div class="flex justify-between w-full">
             <div class="userinfo flex space-x-1">
@@ -532,7 +535,6 @@ const isAddedRemover = () => {
         </div> 
     </div>
 </div>   
-
 
 <!-- <div class="hover:cursor-pointer card flex px-4 py-3 hover:bg-gray-100 duration-200 transition-200">
     <img src="~/assets/images/profile.jpg" class="rounded-full h-[42px]"/>
