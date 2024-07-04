@@ -16,20 +16,25 @@ use App\Http\Controllers\Api\Auth\AuthController;
 */
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
+
 // });
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::controller(PostController::class)->group(function(){
+        Route::post('/post', 'post');
+        Route::get('/getAllPost', 'getAllPost');
+        Route::put('/update/{postId}', 'update');
+        Route::delete('deletePost/{postId}', 'deletePost');
+    });
+    Route::controller(AuthController::class)->group(function(){
+        Route::put('/editProfile/{userId}', 'editProfile');
+        Route::get('getUserData/{userId}', 'getUserData');
+        Route::get('getThisUserData/{username}', 'getThisUserData');
+    });
+});
 
 Route::controller(AuthController::class)->group(function(){
     Route::post('/signup', 'signup');
     Route::post('/login', 'login');
-    Route::put('/editProfile/{userId}', 'editProfile');
-    Route::get('getUserData/{userId}', 'getUserData');
-    Route::get('getThisUserData/{username}', 'getThisUserData');
 });
 
-Route::controller(PostController::class)->group(function(){
-    Route::post('/post', 'post');
-    Route::get('/getAllPost', 'getAllPost');
-    Route::put('/update/{postId}', 'update');
-    Route::delete('deletePost/{postId}', 'deletePost');
-});

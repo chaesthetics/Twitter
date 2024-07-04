@@ -9,11 +9,15 @@ const usePost = () => {
     const post = async(userId, token, data) => {
         try{
             await axios.post(`${baseURL}/post`, 
-                {
+                { 
                     token: token,
                     user_id: userId,
                     text: data.text,
                     image: data.image,
+                },{
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
                 }
             );
         }catch(err){
@@ -21,14 +25,33 @@ const usePost = () => {
         }
     }
 
-    const getAllPost = async() => {
-        try{
-            const response = await axios.get(`${baseURL}/getAllPost`);
+    const getAllPost = async () => {
+        const token = localStorage.getItem("token");
+        try {
+            const response = await axios.get(`${baseURL}/getAllPost`, {
+                headers: {
+                      Authorization: `Bearer ${token}`
+                }
+            });
             tweets.value = response.data;
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
+
+    // const getAllPost = async (token) => {
+    //     try {
+    //         const response = await axios.get(`${baseURL}/getAllPost`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         });
+    //         tweets.value = response.data;
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
+
 
     const update = async(postId, data) => {
         try{
