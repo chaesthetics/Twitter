@@ -93,6 +93,8 @@ const usePost = () => {
                     Authorization: `$Bearer ${token}`
                 }
             });
+            
+            getAllPost();
         }catch(err){
             console.log(err);
         }
