@@ -4,7 +4,6 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-
 const toastSuccess = ref("");
 
 const isDarkMode = ref(false);

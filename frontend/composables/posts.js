@@ -82,6 +82,24 @@ const usePost = () => {
         }
     }
 
+    const likepost = async(userId, postId) => {
+        const token = localStorage.getItem("token");
+        try{
+            const response = await axios.post(`${baseURL}/like`, { 
+                "user_id" : userId,
+                "post_id" : postId
+            },{
+                headers: {
+                    Authorization: `$Bearer ${token}`
+                }
+            });
+            
+            getAllPost();
+        }catch(err){
+            console.log(err);
+        }
+    }
+
     return {
         post,
         getAllPost,
@@ -89,6 +107,7 @@ const usePost = () => {
         tweets,
         update,
         deletepost,
+        likepost,
     }
 }
 
