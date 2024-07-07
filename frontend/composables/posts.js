@@ -93,10 +93,28 @@ const usePost = () => {
                     Authorization: `$Bearer ${token}`
                 }
             });
-            
-            getAllPost();
         }catch(err){
             console.log(err);
+        }finally{    
+            getAllPost();
+        }
+    }
+
+    const unlikepost = async(userId, postId) => {
+        const token = localStorage.getItem("token");
+        try{
+            const response = await axios.post(`${baseURL}/unlike`, {
+                "user_id" : userId,
+                "post_id" : postId
+            },{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+        }catch(err){
+            console.log(err);
+        }finally{    
+            getAllPost();
         }
     }
 
@@ -108,6 +126,7 @@ const usePost = () => {
         update,
         deletepost,
         likepost,
+        unlikepost,
     }
 }
 

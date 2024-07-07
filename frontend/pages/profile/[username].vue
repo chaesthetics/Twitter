@@ -2,19 +2,52 @@
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import useUser from "../../composables/user";
+import usePost from "../../composables/posts"
 import moment from 'moment';
 
-const { getThisUserData, thisUser } = useUser();
+const { getThisUserData, thisUser, userData, getUser } = useUser();
+const { likepost, unlikepost } = usePost(); 
 const userTweet = ref({})
 const router = useRoute(); 
 const username = ref("")
 onMounted(()=> {
     username.value = router.fullPath.replace('/profile/', '');
+    getUser(userData.value);
     getThisUserData(username.value).then(()=>{
         userTweet.value = thisUser.value.posts;
         userTweet.value.reverse();
     });
 });
+
+
+const handleLike = (postId) => {
+    likepost(userData.value.id, postId).then(()=>{
+        getThisUserData(username.value).then(()=>{
+            userTweet.value = thisUser.value.posts;
+            userTweet.value.reverse();
+    });
+    })
+}
+
+const handleUnlike = (postId) => {
+    unlikepost(userData.value.id, postId).then(()=>{
+       getThisUserData(username.value).then(()=>{
+            userTweet.value = thisUser.value.posts;
+            userTweet.value.reverse();
+    });
+    })
+}
+
+const activeLike = ref("");
+
+const setActiveLike = (postId) => {
+    activeLike.value = postId;
+} 
+
+const removeActiveLike = () => {
+    activeLike.value = "";
+}
+
 </script>
 <template>
 <div>
@@ -137,9 +170,19 @@ onMounted(()=> {
         </div>
         <div class="interactions pt-4">
             <div class="common flex justify-between w-full">
+                <div class="flex items-center space-x-2">
+                    <svg v-if="tweet.like?.some((user)=> user.user_id === userData.id)" @click.prevent="handleUnlike(tweet.id)" style="color: red" xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 512 512"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z" fill="red"></path></svg>
+                    <svg v-else @click.prevent="handleLike(tweet.id)" xmlns="http://www.w3.org/2000/svg" width="18" height="18" :fill="`${dark?'white':'black'}`" class="bi bi-heart" viewBox="0 0 16 16"> <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/> </svg>
+                    <p  v-if="tweet.like.length > 0"  type="button" :class="`text-sm ${dark?'text-white':'text-black'} font-bold`" @mouseleave="removeActiveLike" @mouseover="setActiveLike(tweet.id)">{{tweet.like.length}}</p>
+                </div>
+                <div :id="`likes-tooltip-${tweet.id}`" :class="`${activeLike==tweet.id ? 'visible' : 'hidden'} absolute z-10 px-3 py-2 ml-2 mt-6 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-100 dark:bg-gray-700`">
+                    <b>Likes</b>
+                    <p v-for="(size, index) in tweet.like.slice().reverse()" :key="index">
+                        {{`${size.user.firstname} ${size.user.lastname}`}}
+                    </p>
+                </div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16"> <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/> </svg>
                 <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1xvli5t r-1hdv0qi"><g><path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z"></path></g></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16"> <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/> </svg>
                 <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1xvli5t r-1hdv0qi"><g><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"></path></g></svg>
                 <div class="rare flex space-x-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16"> <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/> </svg>
