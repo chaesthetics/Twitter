@@ -1,15 +1,16 @@
 <script setup>
-import { onMounted } from "vue";
-import { useRoute } from "vue-router";
-import useUser from "../../composables/user";
-import usePost from "../../composables/posts"
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import useUser from '../../composables/user';
+import usePost from "../../composables/posts";
 import moment from 'moment';
 
-const { getThisUserData, thisUser, userData, getUser } = useUser();
-const { likepost, unlikepost } = usePost(); 
+const { getThisUserData, thisUser, userData, getUser } = useUser()
+const { likepost, unlikepost } = usePost()
 const userTweet = ref({})
-const router = useRoute(); 
+const router = useRoute()
 const username = ref("")
+
 onMounted(()=> {
     username.value = router.fullPath.replace('/profile/', '');
     getUser(userData.value);

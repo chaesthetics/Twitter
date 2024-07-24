@@ -7,8 +7,18 @@ use App\Http\Requests\Auth\PostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use App\Repository\PostRepository;
+use App\Services\PostService;
 class PostController extends Controller
 {
+    private $postRepository;
+    private $postService;
+    public function __construct(PostRepository $postRepository, PostService $postService)
+    {
+        $this->postRepository = $postRepository;
+        $this->postService = $postService;
+    }
+
     public function post(PostRequest $request)
     {
         try{
@@ -45,15 +55,9 @@ class PostController extends Controller
 
     public function getAllPost()
     {
-        try{
-            $allPost = Post::with('user')->get()->reverse()->values();
-            return response()->json($allPost);
-        }catch(\Throwable $th){
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage(),
-            ], 500);
-        }
+        $posts = $this->postRepository->get();
+            
+        return response()->json($posts);
     }
 
     public function update(PostRequest $request, $postId)
@@ -78,18 +82,6 @@ class PostController extends Controller
 
     public function deletePost($postId)
     {
-        try{
-            $post = Post::find($postId);
-            $post->delete();
-            return response()->json([
-                "status" => true,
-                "message" => "Post Deleted Succesfully",
-            ], 200);
-        }catch(\Throwable $th){
-            return response()->json([
-                "status" => false,
-                "message" => $th->getMessage(),
-            ], 500);
-        }
+        $this->postService->delete($postId);
     }
 }
