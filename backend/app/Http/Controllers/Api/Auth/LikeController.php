@@ -27,4 +27,22 @@ class LikeController extends Controller
             ], 500);
         }
     }
+
+    public function unlike(Request $request)
+    {
+        try{
+            $like = Like::where('user_id', $request->user_id)->where('post_id', $request->post_id);
+            $like->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => "Post unliked",
+            ], 200);
+        }catch(\Throwable $th){
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
 }

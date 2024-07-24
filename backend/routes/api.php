@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
     Route::controller(LikeController::class)->group(function(){
         Route::post('/like', 'like');
+        Route::post('/unlike', 'unlike');
     });
 });
 
@@ -42,4 +43,3 @@ Route::controller(AuthController::class)->group(function(){
     Route::post('/signup', 'signup');
     Route::post('/login', 'login');
 });
-
