@@ -132,6 +132,31 @@ const handleUnlike = (postId) => {
         </div>
     </div>
 </div>
+
+<!-- Like modal -->
+<div id="like-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center w-full h-full bg-black bg-opacity-60">
+    <div class="relative p-4 w-full pt-20 max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between px-4 py-3 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-md font-bold text-red-600 dark:text-white">
+                    Likes
+                </h3>
+                <button type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-900 rounded-full text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="static-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-4 md:p-5 space-y-4 min-h-[400px]">
+                
+            </div>
+        </div>
+    </div>
+</div>
 <div :class="`card flex px-4 py-3 mt-[-1px] ${dark ? 'bg-gray-900': 'bg-white'}`">
     <div v-if="!userData.avatar" class="flex items-center justify-center h-[42px] w-[42px] md:w-[46px] bg-stone-700 rounded-full">
         <p class="text-white font-bold mb-[1px] text-sm">{{ `${userData.firstname?.split("")[0]}${userData.lastname?.split("")[0]}`}}</p>
@@ -238,33 +263,43 @@ const handleUnlike = (postId) => {
             <p :class="`${ dark ? 'text-white':'text-black' }`">{{ tweet.text }}</p>
             <img :src="tweet.image" class="w-full object-fill rounded-xl"/>
         </div>
-        <div class="interactions pt-4">
+        <div class="interactions pt-1">
             <div class="common flex justify-between w-full overflow-y-visible">
-                <div class="flex items-center space-x-2">
-                    <svg v-if="tweet.like?.some((user)=> user.user_id === userData.id)" @click.prevent="handleUnlike(tweet.id)" style="color: red" xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 512 512"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z" fill="red"></path></svg>
-                    <svg v-else @click.prevent="handleLike(tweet.id)" xmlns="http://www.w3.org/2000/svg" width="18" height="18" :fill="`${dark?'white':'black'}`" class="bi bi-heart" viewBox="0 0 16 16"> <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/> </svg>
-                    <p  v-if="tweet.like.length > 0"  type="button" :class="`text-sm ${dark?'text-white':'text-black'} font-bold`" @mouseleave="removeActiveLike" @mouseover="setActiveLike(tweet.id)">{{tweet.like.length}}</p>
+                <div class="flex items-center">
+                    <div :class="`${ dark ? 'hover:bg-red-950' : 'hover:bg-red-200'} group hover:cursor-pointer w-10 h-10 rounded-full flex justify-center items-center duration-300 transition-300`">
+                        <svg v-if="tweet.like?.some((user)=> user.user_id === userData.id)" @click.prevent="handleUnlike(tweet.id)" width="26" height="26" style="color: red" xmlns="http://www.w3.org/2000/svg" class="w-5 group-hover:fill-red-200 duration-300 transition-300" viewBox="0 0 512 512"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z" fill="red"></path></svg>
+                        <svg v-else @click.prevent="handleLike(tweet.id)" stroke="black" stroke-width="0.2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" :fill="`${dark?'white':'black'}`" class="bi bi-heart group-hover:fill-red-700 duration-300 transition-300" viewBox="-2 -2 20 20"> <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/> </svg>
+                    </div>
+                    <button v-if="tweet.like.length > 0"  type="button" data-modal-target="static-modal" data-modal-toggle="static-modal" :class="`text-sm ${dark?'text-white':'text-black'} font-semibold hover:text-red-800 duration-300 animation-300`" @mouseleave="removeActiveLike" @mouseover="setActiveLike(tweet.id)">{{tweet.like.length}}</button>
+                    
+
                 </div>
                    <div :id="`likes-tooltip-${tweet.id}`" :class="`${activeLike==tweet.id ? 'visible' : 'invisible'} absolute z-10 px-3 py-2 ml-2 mt-6 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-100 dark:bg-gray-700`">
                         <b>Likes</b>
                         <p v-for="(size, index) in tweet.like.slice().reverse()" :key="index">
                             {{`${size.user.firstname} ${size.user.lastname}`}}
                         </p>
-                    </div>
+                    </div>  
                 <div class="flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" :fill="`${dark?'white':'black'}`" class="bi bi-chat" viewBox="0 0 16 16"> <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/> </svg>
+                    <div :class="`${ dark ? 'hover:bg-green-950' : 'hover:bg-green-200'} group hover:cursor-pointer w-10 h-10 rounded-full flex justify-center items-center duration-300 transition-300`">
+                        <svg xmlns="http://www.w3.org/2000/svg" stroke="black" stroke-width="0.2" width="24" height="24" :fill="`${dark?'white':'black'}`" class="bi bi-chat group-hover:fill-green-700 duration-300 transition-300" viewBox="-2 -2 20 20"> <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/> </svg>
+                    </div>
                     <p :class="`text-sm ${dark?'text-white':'text-black'}`"></p>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" :fill="`${dark?'white':'black'}`" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1xvli5t r-1hdv0qi"><g><path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z"></path></g></svg>
+                    <div :class="`${ dark ? 'hover:bg-blue-950' : 'hover:bg-blue-200'} group hover:cursor-pointer w-10 h-10 rounded-full flex justify-center items-center duration-300 transition-300`">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" stroke="black" stroke-width="0.1" width="20" height="20" :fill="`${dark?'white':'black'}`" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1xvli5t r-1hdv0qi group-hover:fill-blue-700 duration-300 transition-300"><g><path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z"></path></g></svg>
+                    </div>
                     <p :class="`text-sm ${dark?'text-white':'text-black'}`"></p>
                 </div>
          
                 <div class="flex items-center space-x-2">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" :fill="`${dark?'white':'black'}`"  class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1xvli5t r-1hdv0qi"><g><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"></path></g></svg>
+                    <div :class="`${ dark ? 'hover:bg-blue-950' : 'hover:bg-blue-200'} group hover:cursor-pointer w-10 h-10 rounded-full flex justify-center items-center duration-300 transition-300`">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" width="22" height="22" :fill="`${dark?'white':'black'}`"  class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1xvli5t r-1hdv0qi group-hover:fill-blue-700 duration-300 transition-300"><g><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"></path></g></svg>
+                    </div>
                     <p :class="`text-sm ${dark?'text-white':'text-black'}`"></p>
-                </div>
-                <div class="rare flex space-x-3">
+                </div>  
+                <div class="flex items-center space-x-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" :fill="`${dark?'white':'black'}`" class="bi bi-bookmark" viewBox="0 0 16 16"> <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/> </svg>
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" :fill="`${dark?'white':'black'}`" class="bi bi-box-arrow-up" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M3.5 6a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 1 0-1h2A1.5 1.5 0 0 1 14 6.5v8a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 14.5v-8A1.5 1.5 0 0 1 3.5 5h2a.5.5 0 0 1 0 1h-2z"/> <path fill-rule="evenodd" d="M7.646.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 1.707V10.5a.5.5 0 0 1-1 0V1.707L5.354 3.854a.5.5 0 1 1-.708-.708l3-3z"/> </svg>
                 </div>
