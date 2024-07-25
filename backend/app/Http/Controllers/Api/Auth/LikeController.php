@@ -5,44 +5,26 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Like;
-
+use App\Services\LikeService;
 class LikeController extends Controller
 {
+    private $likeService;
+
+    public function __construct(LikeService $likeService)
+    {
+        $this->likeService = $likeService;
+    }
     public function like(Request $request)
     {
-        try{
-            $like = new Like;
-            $like->user_id = $request->user_id;
-            $like->post_id = $request->post_id;
+        $response = $this->likeService->create($request);
 
-            $like->save();
-            return response()->json([
-                'status' => true,
-                'message' => 'Post has been liked',
-            ], 200);
-        }catch(\Throwable $th){
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage(),
-            ], 500);
-        }
+        return $response;
     }
 
     public function unlike(Request $request)
     {
-        try{
-            $like = Like::where('user_id', $request->user_id)->where('post_id', $request->post_id);
-            $like->delete();
+     $response = $this->likeService->destroy($request);
 
-            return response()->json([
-                'status' => true,
-                'message' => "Post unliked",
-            ], 200);
-        }catch(\Throwable $th){
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage(),
-            ], 500);
-        }
+     return $response;
     }
 }
