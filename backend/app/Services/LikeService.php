@@ -1,6 +1,5 @@
 <?php 
 
-
 namespace App\Services;
 use App\Models\Like;
 class LikeService
