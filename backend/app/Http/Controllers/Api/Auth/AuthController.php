@@ -128,16 +128,15 @@ class AuthController extends Controller
 
     public function getUserData($userId)
     {
-        $user = User::find($userId);
-        $user->posts;
+        $user = User::find($userId)->with('likes')->with('posts')->first();
         return response()->json($user);
     }
 
     public function getThisUserData($username)
     {
         try{
-            $user = User::where('email', $username.="@gmail.com")->first();
-            $user->posts;
+            $user = User::where('email', $username.="@gmail.com")->with('posts')->first();
+            // $user->posts;
             if($user){
                 return response()->json($user);
             }else{

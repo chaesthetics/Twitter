@@ -1,13 +1,14 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+// /** @type {import('tailwindcss').Config} */
+module.export = {
   content: [
     "./components/**/*.{js,vue,ts}",
     "./layouts/**/*.vue",
-    "./pages/**/*.vue",
+    "./pages/**/*.{js,vue,ts}",
     "./plugins/**/*.{js,ts}",
     "./app.vue",
     "./error.vue",
     "./node_modules/flowbite/**/*.{js,ts}",
+    "./nuxt.config.{js,ts}",
   ],
   darkMode: 'class',
   theme: {

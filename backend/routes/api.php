@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\LikeController;
 use App\Http\Controllers\Api\Auth\PostController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -32,10 +33,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('getUserData/{userId}', 'getUserData');
         Route::get('getThisUserData/{username}', 'getThisUserData');
     });
+    Route::controller(LikeController::class)->group(function(){
+        Route::post('/like', 'like');
+        Route::post('/unlike', 'unlike');
+    });
 });
 
 Route::controller(AuthController::class)->group(function(){
     Route::post('/signup', 'signup');
     Route::post('/login', 'login');
 });
-
