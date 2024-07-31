@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\auth\CommentController;
 use App\Http\Controllers\Api\Auth\LikeController;
 use App\Http\Controllers\Api\Auth\PostController;
 use App\Http\Controllers\Api\Auth\AuthController;
@@ -42,4 +43,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::controller(AuthController::class)->group(function(){
     Route::post('/signup', 'signup');
     Route::post('/login', 'login');
+});
+
+Route::controller(CommentController::class)->group(function(){
+    Route::post('comment', 'comment');
 });

@@ -9,7 +9,7 @@ class PostRepository
     public function get()
     {   
         try{
-            $allPost = Post::with('user','like')->get()->reverse()->values();
+            $allPost = Post::with('user','like','comments')->get()->reverse()->values();
             return $allPost;
         }catch(\Throwable $th){
             return response()->json([

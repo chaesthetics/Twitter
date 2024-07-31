@@ -24,4 +24,9 @@ class Post extends Model
     {
         return $this->hasMany(Like::class)->with('user');
     }
+
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
