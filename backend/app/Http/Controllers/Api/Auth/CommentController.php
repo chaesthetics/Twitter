@@ -28,7 +28,27 @@ class CommentController extends Controller
                 'message' => $th->getMessage(),
             ], 500);
         }
-
-
     }
+
+    public function updateComment($commentId, Request $request)
+    {
+        try{
+           $comment = Comment::find($commentId);
+           $comment->content = $request->content;
+           
+           $comment->update();
+
+           return response()->json([
+                'status' => 'success',
+                'message' => 'comment updated',
+           ], 200);
+        }catch(\Throwable $th){
+            return response()->json([
+                'status' => 'failed',
+                'message' => $th->getMessage(),
+            ], 500);
+        }
+    }
+
+
 }
