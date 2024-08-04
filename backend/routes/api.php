@@ -47,4 +47,5 @@ Route::controller(AuthController::class)->group(function(){
 
 Route::controller(CommentController::class)->group(function(){
     Route::post('comment', 'comment');
+    Route::put('updateComment/{commentId}', 'updateComment');
 });
